@@ -60,9 +60,6 @@ else
 	else
 		make $DEFCONFIG $EV -j$CPUS
 fi
-   sleep $SLEEP
-fi
-clear
 #
 if [[ "$logs" == 1 ]];
 then
@@ -110,7 +107,6 @@ echo "Compiling Hololite_v"$v".zip"
 find . -type f -exec zip Hololite_v"$v".zip {} +
 nowf=$(date +"%T")
 cd ..
-make clean && make mrproper
 rm out/bzImage
 printf "cleaned files"
 printf "\n\nzip created\n"
