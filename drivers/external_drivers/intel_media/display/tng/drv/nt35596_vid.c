@@ -1508,10 +1508,6 @@ static int nt35596_vid_set_brightness(struct mdfld_dsi_config *dsi_config,
 	static void __iomem *bl_en_mmio;
 	struct backlight_device *psb;
 
-	/* Re-assign the minimum brightness value to 15 */
-	if (level > 0 && level <= 15)
-		level = 15;
-
 	reg_level = ~level & 0xFF;
 	pwmctrl.part.pwmswupdate = 0x1;
 	pwmctrl.part.pwmbu = PWM_BASE_UNIT;
