@@ -57,7 +57,7 @@ config CPU_FREQ_STAT_DETAILS
 choice
 	prompt "Default CPUFreq governor"
 	default CPU_FREQ_DEFAULT_GOV_USERSPACE if ARM_SA1100_CPUFREQ || ARM_SA1110_CPUFREQ
-	default CPU_FREQ_DEFAULT_GOV_PERFORMANCE
+	default CPU_FREQ_DEFAULT_GOV_INTEL
 	help
 	  This option sets which CPUFreq governor shall be loaded at
 	  startup. If in doubt, select 'performance'.
@@ -78,6 +78,39 @@ config CPU_FREQ_DEFAULT_GOV_POWERSAVE
 	  Use the CPUFreq governor 'powersave' as default. This sets
 	  the frequency statically to the lowest frequency supported by
 	  the CPU.
+
+config CPU_FREQ_DEFAULT_GOV_INTERACTIVEX
+	bool "interactiveX"
+	select CPU_FREQ_GOV_INTERACTIVEX
+	help
+	  Use the CPUFreq governor 'interactiveX' as default. This allows
+	  you to get a full dynamic cpu frequency capable system by simply
+	  loading your cpufreq low-level hardware driver, using the
+	  'interactiveX' governor for latency-sensitive workloads.
+
+config CPU_FREQ_DEFAULT_GOV_FRANKENSTEIN
+	bool "frankenstein"
+	select CPU_FREQ_GOV_FRANKENSTEIN
+	help
+	  Use the CPUFreq governor 'frankenstein' as default. This allows
+	  you to get a full dynamic cpu frequency capable system by simply
+	  loading your cpufreq low-level hardware driver, using the
+	  'frankenstein' governor for latency-sensitive workloads.
+
+config CPU_FREQ_DEFAULT_GOV_SMARTASS2
+  	bool "smartassV2"
+  	select CPU_FREQ_GOV_SMARTASS2
+  	help
+	
+config CPU_FREQ_DEFAULT_GOV_INTEL
+	bool "intel"
+	select CPU_FREQ_GOV_INTEL
+	help
+	  Use the CPUFreq governor 'intel' as default. This allows
+	  you to get a full dynamic cpu frequency capable system by simply
+	  loading your cpufreq low-level hardware driver, using the
+	  'intel' governor for better perfromance and power with Intel
+	  mobile platforms.
 
 endchoice
 
@@ -102,6 +135,41 @@ config CPU_FREQ_GOV_POWERSAVE
 	  module will be called cpufreq_powersave.
 
 	  If in doubt, say Y.
+	  
+config CPU_FREQ_GOV_SMARTASS2
+  	tristate "'smartassV2' cpufreq governor"
+  	depends on CPU_FREQ
+  	help
+    	'smartassV2' - a "smart" governor
+		
+config CPU_FREQ_GOV_INTERACTIVEX
+	tristate "'interactiveX' cpufreq policy governor"	
+	default y	
+	help
+		A less aggressive version of Interactive governor
+	
+config CPU_FREQ_GOV_ONDEMANDX
+	tristate "'ondemandX' cpufreq policy governor"
+	depends on CPU_FREQ	
+	default y	
+	help
+		A more aggressive version of Ondemand governor
+	
+config CPU_FREQ_GOV_FRANKENSTEIN
+	tristate "'frankenstein' cpufreq policy governor"
+	depends on CPU_FREQ_GOV_PERFORMANCE	
+	default y
+	
+config CPU_FREQ_GOV_INTEL
+	tristate "'intel' cpufreq policy governor"	
+	default y	
+	help
+	  Use the CPUFreq governor 'intel' as default. This allows
+	  you to get a full dynamic cpu frequency capable system by simply
+	  loading your cpufreq low-level hardware driver, using the
+	  'intel' governor for better perfromance and power with Intel
+	  mobile platforms.
+	
 
 config GENERIC_CPUFREQ_CPU0
 	tristate "Generic CPU0 cpufreq driver"
