@@ -167,6 +167,14 @@ void mpi_assign_limb_space(MPI a, mpi_ptr_t ap, unsigned nlimbs);
 void mpi_rshift_limbs(MPI a, unsigned int count);
 int mpi_lshift_limbs(MPI a, unsigned int count);
 
+/*-- mpihelp-add.c --*/
+mpi_limb_t mpihelp_add_n(mpi_ptr_t res_ptr, mpi_ptr_t s1_ptr,
+			 mpi_ptr_t s2_ptr, mpi_size_t size);
+
+/*-- mpihelp-sub.c --*/
+mpi_limb_t mpihelp_sub_n(mpi_ptr_t res_ptr, mpi_ptr_t s1_ptr,
+			 mpi_ptr_t s2_ptr, mpi_size_t size);
+
 /*-- mpihelp-cmp.c --*/
 int mpihelp_cmp(mpi_ptr_t op1_ptr, mpi_ptr_t op2_ptr, mpi_size_t size);
 
