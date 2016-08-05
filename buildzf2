@@ -66,11 +66,11 @@ clear
 #
 if [[ "$logs" == 1 ]];
 then
-	make $DEFCONFIG $EV -j$CPUS 2>&1 | tee .logs_"$start".log
+	make $EV -j$CPUS 2>&1 | tee .logs_"$start".log
 	unset logs
 elif [[ "$logs" == 101 ]]
 then
-	make $DEFCONFIG $EV -j$CPUS 2>&1 | tee .logs_"$start".log
+	make $EV -j$CPUS 2>&1 | tee .logs_"$start".log
 else
 	make $EV -j$CPUS
 fi
