@@ -24,6 +24,7 @@ modules.builtin
 *.patch
 *.zip
 *modules.order
+*.symvers
 out/
 
 #
