@@ -1,5 +1,4 @@
 #!/bin/bash
-clear
 start=`date +%s`
 NOW=$(date +"%d-%m-%Y")
 echo "Current Date : $NOW"
@@ -48,7 +47,7 @@ then
    echo "Continuing To Compiler"
    sleep $SLEEP
 else
-   echo ".config Does Not Exists"
+   echo ".config Does Not Exist"
    echo "Compiling From $DEFCONFIG"
    if [[ "$logs" == 1 ]];
 	then
@@ -59,6 +58,7 @@ else
 		make $DEFCONFIG $EV -j$CPUS 2>&1 | tee .logs_"$start".log
 	else
 		make $DEFCONFIG $EV -j$CPUS
+	fi
 fi
 #
 if [[ "$logs" == 1 ]];
