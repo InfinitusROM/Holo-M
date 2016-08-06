@@ -22,7 +22,7 @@ read -t8 v
 echo "Setting Extra Version"
 export EV=EXTRAVERSION=_Hololite_v$v
 echo "Setting Defconfig"
-export DEFCONFIG=cyanogenmod_zenfone2_defconfig
+export DEFCONFIG=holo_zenfone2_defconfig
 echo "SElinux set to Enforcing"
 echo "Setting bzImage Location For Hololite kernel By nutcasev1.5 Of XDA (thanks to eoghan2t7)"
 export BZIMAGE=arch/x86/boot/bzImage
