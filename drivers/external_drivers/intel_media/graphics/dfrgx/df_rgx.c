@@ -574,7 +574,7 @@ static int tcd_get_force_state_override(struct thermal_cooling_device *tcd,
 	struct busfreq_data *bfdata = (struct busfreq_data *) tcd->devdata;
 
 	return scnprintf(buf, PAGE_SIZE,
-			"%lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu\n",
+			"%lu %lu %lu %lu %lu %lu %lu\n",
 			bfdata->gpudata[0].freq_limit,
 			bfdata->gpudata[1].freq_limit,
 			bfdata->gpudata[2].freq_limit,
@@ -612,7 +612,7 @@ static int tcd_set_force_state_override(struct thermal_cooling_device *tcd,
 	if (df_rgx_is_max_fuse_set())
 		prev_freq = DFRGX_FREQ_640_MHZ;
 
-	sscanf(buf, "%lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu\n", &freqs[0],
+	sscanf(buf, "%lu %lu %lu %lu %lu %lu %lu\n", &freqs[0],
 			 &freqs[1],
 			 &freqs[2],
 			 &freqs[3],
@@ -625,7 +625,7 @@ static int tcd_set_force_state_override(struct thermal_cooling_device *tcd,
 			 &freqs[10],
 			 &freqs[11]);
 
-	DFRGX_DPF(DFRGX_DEBUG_HIGH, "%s values: %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu\n", __func__,
+	DFRGX_DPF(DFRGX_DEBUG_HIGH, "%s values: %lu %lu %lu %lu %lu %lu %lu\n", __func__,
 			freqs[0],
 			freqs[1],
 			freqs[2],
@@ -775,7 +775,7 @@ static int df_rgx_busfreq_probe(struct platform_device *pdev)
 	else {
 	df->min_freq = DF_RGX_FREQ_KHZ_MIN;
 	df->max_freq = DF_RGX_FREQ_KHZ_MAX;
-	}*/
+	}
 /*if this is BTNS we use powersave governor at 106MHZ fixed*/
 #ifdef CONFIG_PLATFORM_BTNS
 	df->min_freq = DFRGX_FREQ_106_MHZ;
