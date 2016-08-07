@@ -59,8 +59,6 @@
 #include <linux/interrupt.h>
 #include <linux/slab.h>
 #include <linux/input/lis3dh.h>
-#include <linux/hrtimer.h>
-#include <linux/kthread.h>
 
 #define	DEBUG	0
 #define DEBUG_DATA_LOG 0
@@ -218,10 +216,7 @@ struct lis3dh_acc_data {
 	struct lis3dh_acc_platform_data *pdata;
 
 	struct mutex lock;
-	struct hrtimer work_timer;
-	struct completion report_complete;
-	struct task_struct *thread;
-	bool hrtimer_running;
+	struct delayed_work input_work;
 	int report_cnt;
 	int report_interval;
 
@@ -459,6 +454,7 @@ static int lis3dh_acc_get_acceleration_data(struct lis3dh_acc_data *acc,
 	u8 acc_data[6] = { 0 };
 	/* x,y,z hardware data */
 	s16 hw_d[3] = { 0 };
+
 	err = lis3dh_acc_i2c_read(acc, AXISDATA_REG, acc_data, 6);
 	if (err < 0)
 		return err;
@@ -470,6 +466,7 @@ static int lis3dh_acc_get_acceleration_data(struct lis3dh_acc_data *acc,
 	hw_d[0] = hw_d[0] * acc->sensitivity;
 	hw_d[1] = hw_d[1] * acc->sensitivity;
 	hw_d[2] = hw_d[2] * acc->sensitivity;
+
 
 	xyz[0] = ((acc->pdata->negate_x) ? (-hw_d[acc->pdata->axis_map_x])
 		   : (hw_d[acc->pdata->axis_map_x]));
@@ -493,48 +490,19 @@ static void lis3dh_acc_report_values(struct lis3dh_acc_data *acc, int *xyz)
 	input_sync(acc->input_dev);
 }
 
-static int report_event(void *data)
-{
-	int xyz[3] = { 0 };
-	int err;
-	struct lis3dh_acc_data *acc = data;
-
-	while(1)
-	{
-		/* wait for report event */
-		wait_for_completion(&acc->report_complete);
-
-		mutex_lock(&acc->lock);
-		if (!acc->enabled) {
-			mutex_unlock(&acc->lock);
-			continue;
-		}
-		err = lis3dh_acc_get_acceleration_data(acc, xyz);
-		if (err < 0)
-			dev_err(&acc->client->dev, "get_acceleration_data failed\n");
-		else
-			lis3dh_acc_report_values(acc, xyz);
-		mutex_unlock(&acc->lock);
-	}
-
-	return 0;
-}
-
 /* mutex lock must be held when calling this function */
 static void lis3dh_acc_launch_work(struct lis3dh_acc_data *acc)
 {
-	ktime_t poll_delay;
-
 	if (!acc->enabled)
 		return;
 	if (acc->pdata->poll_interval > 0) {
-		poll_delay = ktime_set(0, acc->pdata->poll_interval * NSEC_PER_MSEC);
+		schedule_delayed_work(&acc->input_work,
+				msecs_to_jiffies(acc->pdata->poll_interval));
 	} else {
 		acc->report_cnt = LIS3DH_6D_REPORT_CNT;
-		poll_delay = ktime_set(0, acc->report_interval * NSEC_PER_MSEC);
+		schedule_delayed_work(&acc->input_work,
+				msecs_to_jiffies(acc->report_interval));
 	}
-	acc->hrtimer_running = true;
-	hrtimer_start(&acc->work_timer, poll_delay, HRTIMER_MODE_REL);
 }
 
 static int lis3dh_acc_get_int1_source(struct lis3dh_acc_data *acc)
@@ -595,8 +563,14 @@ static int lis3dh_acc_enable(struct lis3dh_acc_data *acc)
 
 static int lis3dh_acc_disable(struct lis3dh_acc_data *acc)
 {
+	/*
+	 * cancel_delayed_work_sync can't be used since both worker
+	 * and this function are protected with the same mutex.
+	 */
+	cancel_delayed_work(&acc->input_work);
 	lis3dh_acc_device_power_off(acc);
 	acc->enabled = 0;
+
 	return 0;
 }
 
@@ -658,7 +632,7 @@ static ssize_t attr_set_polling_rate(struct device *dev,
 		return -EINVAL;
 
 	if (!interval_ms)
-		hrtimer_cancel(&acc->work_timer);
+		cancel_delayed_work_sync(&acc->input_work);
 
 	mutex_lock(&acc->lock);
 	acc->pdata->poll_interval = interval_ms;
@@ -956,26 +930,41 @@ static struct attribute_group lis3dh_attr_group = {
 	.attrs = lis3dh_attrs
 };
 
-static enum hrtimer_restart lis3dh_acc_input_work_func(struct hrtimer *timer)
+static void lis3dh_acc_input_work_func(struct work_struct *work)
 {
 	struct lis3dh_acc_data *acc;
-	ktime_t poll_delay;
-	acc = container_of((struct hrtimer *)timer,
-			struct lis3dh_acc_data, work_timer);
 
+	int xyz[3] = { 0 };
+	int err;
+
+	acc = container_of((struct delayed_work *)work,
+			struct lis3dh_acc_data,	input_work);
+
+	mutex_lock(&acc->lock);
+	/*
+	 * If the disable function was run after the work has been changed to
+	 * running state but before we got the mutex the worker keeps on
+	 * running. Check the enable status after the mutex is locked to
+	 * see if the HW is still running.
+	 */
 	if (!acc->enabled)
-		return HRTIMER_NORESTART;
+		goto leave;
 
-	complete(&acc->report_complete);
+	err = lis3dh_acc_get_acceleration_data(acc, xyz);
+	if (err < 0)
+		dev_err(&acc->client->dev, "get_acceleration_data failed\n");
+	else
+		lis3dh_acc_report_values(acc, xyz);
 
 	if (acc->pdata->poll_interval > 0) {
-		poll_delay = ktime_set(0, acc->pdata->poll_interval * NSEC_PER_MSEC);
+		schedule_delayed_work(&acc->input_work,
+				msecs_to_jiffies(acc->pdata->poll_interval));
 	} else if (acc->report_cnt-- > 0) {
-		poll_delay = ktime_set(0, acc->report_interval * NSEC_PER_MSEC);
+		schedule_delayed_work(&acc->input_work,
+				msecs_to_jiffies(acc->report_interval));
 	}
-	hrtimer_start(&acc->work_timer, poll_delay, HRTIMER_MODE_REL);
-
-	return HRTIMER_NORESTART;
+leave:
+	mutex_unlock(&acc->lock);
 }
 
 static int lis3dh_acc_validate_pdata(struct lis3dh_acc_data *acc)
@@ -1014,23 +1003,13 @@ static int lis3dh_acc_input_init(struct lis3dh_acc_data *acc)
 {
 	int err;
 
-	hrtimer_init(&acc->work_timer, CLOCK_MONOTONIC,HRTIMER_MODE_REL);
-	acc->work_timer.function = lis3dh_acc_input_work_func;
-	acc->hrtimer_running = false;
+	INIT_DELAYED_WORK(&acc->input_work, lis3dh_acc_input_work_func);
 	acc->report_interval = LIS3DH_6D_REPORT_DELAY;
 
 	acc->input_dev = input_allocate_device();
 	if (!acc->input_dev) {
 		err = -ENOMEM;
 		dev_err(&acc->client->dev, "input device allocation failed\n");
-		goto err0;
-	}
-	init_completion(&acc->report_complete);
-	acc->thread = kthread_run(report_event, acc, "acc_report_event");
-	if (IS_ERR(acc->thread)) {
-		err = -EINVAL;
-		dev_err(&acc->client->dev,
-				"unable to create report_event thread\n");
 		goto err0;
 	}
 
@@ -1073,10 +1052,10 @@ static int lis3dh_acc_input_init(struct lis3dh_acc_data *acc)
 
 err1:
 	input_free_device(acc->input_dev);
-	kthread_stop(acc->thread);
 err0:
 	return err;
 }
+
 
 static void lis3dh_init_resume_state(struct lis3dh_acc_data *acc)
 {
@@ -1205,7 +1184,6 @@ static int lis3dh_acc_probe(struct i2c_client *client,
 out_free_input:
 	sysfs_remove_group(&client->dev.kobj, &lis3dh_attr_group);
 	input_unregister_device(acc->input_dev);
-	kthread_stop(acc->thread);
 out_power_off:
 	lis3dh_acc_device_power_off(acc);
 out_pdata_exit:
@@ -1228,7 +1206,7 @@ static int lis3dh_acc_remove(struct i2c_client *client)
 		free_irq(acc->irq1, acc);
 		gpio_free(acc->pdata->gpio_int1);
 	}
-	kthread_stop(acc->thread);
+
 	input_unregister_device(acc->input_dev);
 	lis3dh_acc_device_power_off(acc);
 
@@ -1269,10 +1247,6 @@ static int lis3dh_acc_suspend(struct device *dev)
 	acc->need_resume = acc->enabled;
 	if (acc->enabled)
 		lis3dh_acc_disable(acc);
-	if (acc->hrtimer_running) {
-		acc->hrtimer_running = false;
-		hrtimer_cancel(&acc->work_timer);
-	}
 	mutex_unlock(&acc->lock);
 
 	return 0;

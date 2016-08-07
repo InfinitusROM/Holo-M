@@ -2,12 +2,9 @@
  * Definitions for API from sdio common code (bcmsdh) to individual
  * host controller drivers.
  *
- * $ Copyright Open Broadcom Corporation $
+ * $Copyright Open Broadcom Corporation$
  *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: bcmsdbus.h 514727 2014-11-12 03:02:48Z $
+ * $Id: bcmsdbus.h 408158 2013-06-17 22:15:35Z $
  */
 
 #ifndef	_sdio_api_h_

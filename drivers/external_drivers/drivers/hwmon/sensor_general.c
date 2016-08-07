@@ -33,8 +33,6 @@
 #include <asm/div64.h>
 #include "sensor_driver_config.h"
 #include "sensor_general.h"
-#include <linux/sched.h>
-#include <linux/sched/rt.h>
 
 #ifdef CONFIG_GENERAL_SENSOR_DEBUG
 
@@ -721,12 +719,8 @@ static int sensor_disable(struct sensor_data *data)
 
 	if (data->state == STATE_EN) {
 		if (INT != data->config->method) {
+			cancel_delayed_work(&data->input_work);
 			data->launched = 0;
-
-			if (data->hrtimer_running) {
-				data->hrtimer_running = false;
-				hrtimer_cancel(&data->work_timer);
-			}
 		}
 
 		ret = sensor_exec_sensor_action(data, DISABLE);
@@ -1001,7 +995,7 @@ static int sensor_get_report_data(struct sensor_data *data)
 					data->config->input_name, val);
 			/*Fix me: REL_X/Y/Z == ABS_X/Y/Z*/
 			input_event(data->input_dev,
-				data->config->event_type, REL_X, val?val:1);
+				data->config->event_type, REL_X, val);
 		}
 	}
 
@@ -1020,7 +1014,7 @@ static int sensor_get_report_data(struct sensor_data *data)
 			SENSOR_DBG(DBG_LEVEL2, data->dbg_on, "%s Y:%d",
 					data->config->input_name, val);
 			input_event(data->input_dev,
-				data->config->event_type, REL_Y, val?val:1);
+				data->config->event_type, REL_Y, val);
 		}
 	}
 
@@ -1039,7 +1033,7 @@ static int sensor_get_report_data(struct sensor_data *data)
 			SENSOR_DBG(DBG_LEVEL2, data->dbg_on, "%s Z:%d",
 					data->config->input_name, val);
 			input_event(data->input_dev,
-				data->config->event_type, REL_Z, val?val:1);
+				data->config->event_type, REL_Z, val);
 		}
 	}
 
@@ -1048,32 +1042,6 @@ static int sensor_get_report_data(struct sensor_data *data)
 	sensor_time_end(data, &start);
 
 	return ret;
-}
-
-static long unsigned int start, end;
-static int report_event(void *data)
-{
-	int xyz[3] = { 0 };
-	struct sensor_data *pdata = data;
-
-	while(1)
-	{
-		/* wait for report event */
-		wait_for_completion(&pdata->report_complete);
-
-		mutex_lock(pdata->lock);
-
-		if (!pdata->launched) {
-			mutex_unlock(pdata->lock);
-			continue;
-		}
-
-		sensor_get_report_data(pdata);
-
-		mutex_unlock(pdata->lock);
-       }
-
-       return 0;
 }
 
 static ssize_t sensor_range_show(struct device *dev,
@@ -1268,7 +1236,6 @@ static ssize_t sensor_sysfs_data_acton_store(struct device *dev,
 */
 static void sensor_launch_work(struct sensor_data *data)
 {
-	ktime_t poll_delay;
 	SENSOR_DBG(DBG_LEVEL1, data->dbg_on, "%s", data->config->input_name);
 
 	if (INT == data->config->method) {
@@ -1285,47 +1252,56 @@ static void sensor_launch_work(struct sensor_data *data)
 
 	if (data->poll_interval > 0) {
 		/*Poll method*/
-		 poll_delay = ktime_set(0, data->poll_interval * NSEC_PER_MSEC);
+		schedule_delayed_work(&data->input_work,
+			msecs_to_jiffies(data->poll_interval));
 	} else {
 		/*MIX method*/
 		data->report_cnt = data->config->report_cnt;
-		poll_delay = ktime_set(0, data->config->report_interval * NSEC_PER_MSEC);
+		schedule_delayed_work(&data->input_work,
+			msecs_to_jiffies(data->config->report_interval));
 	}
-	data->hrtimer_running = true;
-        hrtimer_start(&data->work_timer, poll_delay, HRTIMER_MODE_REL);
+
 	data->launched = 1;
 }
 
 /*
-* general polling func
+* general delayed work func
 * create a seperate work queue for all sensor drivers ?
 */
-static enum hrtimer_restart sensor_poll_work(struct hrtimer *timer)
+static void sensor_poll_work(struct work_struct *work)
 {
-	ktime_t poll_delay;
-        struct sensor_data *data = container_of((struct hrtimer *)timer,
-                       struct sensor_data, work_timer);
+	int delay;
+	struct sensor_data *data = container_of(to_delayed_work(work),
+					struct sensor_data, input_work);
+
 	SENSOR_DBG(DBG_LEVEL3, data->dbg_on, "%s", data->config->input_name);
 
+	mutex_lock(data->lock);
+
+	/*especially for the first time : INIT_DELAYED_WORK*/
 	if (data->state != STATE_EN) {
 		data->launched = 0;
-		return HRTIMER_NORESTART;
+		goto poll_out;
 	}
-	complete(&data->report_complete);
+
+	/*nothing input if error*/
+	sensor_get_report_data(data);
 
 	/*Poll or Mix method*/
 	if (data->poll_interval > 0) {
-		poll_delay = ktime_set(0, data->poll_interval * NSEC_PER_MSEC);
+		delay = msecs_to_jiffies(data->poll_interval);
+		schedule_delayed_work(&data->input_work, delay);
 	} else {
 		if (data->report_cnt-- > 0) {
-			poll_delay = ktime_set(0, data->config->report_interval * NSEC_PER_MSEC);
+			delay = msecs_to_jiffies(data->config->report_interval);
+			schedule_delayed_work(&data->input_work, delay);
 		} else {
 			data->launched = 0;
 		}
 	}
-	hrtimer_start(&data->work_timer, poll_delay, HRTIMER_MODE_REL);
 
-	return HRTIMER_NORESTART;
+poll_out:
+	mutex_unlock(data->lock);
 }
 
 /*
@@ -1447,27 +1423,13 @@ static int sensor_get_data_init(struct sensor_data *data)
 {
 	int ret = 0;
 	enum method_get_data method = data->config->method;
-	struct sched_param param = { .sched_priority = MAX_RT_PRIO-1 };
 
 	SENSOR_DBG(DBG_LEVEL3, data->dbg_on, "%s", data->config->input_name);
 
 	/*init delayed work or irq routine*/
 	if (method == POLL || method == MIX)
-	{
-		hrtimer_init(&data->work_timer, CLOCK_MONOTONIC,HRTIMER_MODE_REL);
-		data->work_timer.function = sensor_poll_work;
-		data->hrtimer_running = false;
+		INIT_DELAYED_WORK(&data->input_work, sensor_poll_work);
 
-		init_completion(&data->report_complete);
-		data->thread = kthread_run(report_event, data, "sensor_report_event");
-		if (IS_ERR(data->thread)) {
-			dev_err(&data->client->dev,
-				"unable to create report_event thread\n");
-			return ret;
-		}
-		sched_setscheduler_nocheck(data->thread, SCHED_FIFO, &param);
-
-	}
 	/*init irq*/
 	if (method == INT || method == MIX) {
 		int irq;
@@ -2285,14 +2247,12 @@ static int sensor_parse_config(int num, struct sensor_config *configs)
 static struct sensor_config_image *sensor_image;
 static int sensor_general_attached;
 static int start_method;
-static int fw_finish;
 static void sensor_firmware_cb(const struct firmware *fw_entry, void *ctx)
 {
 	int ret;
 
 	if (!fw_entry) {
 		printk(KERN_ERR "Fail to request sensor firmware\n");
-		fw_finish = 1;
 		return;
 	}
 
@@ -2327,29 +2287,16 @@ static void sensor_firmware_cb(const struct firmware *fw_entry, void *ctx)
 		sensor_general_attached = 1;
 out:
 	release_firmware(fw_entry);
-	fw_finish = 1;
 	return;
 }
 
 static int sensor_general_start(int start)
 {
-	int ret = 0;
 	start_method = start;
-	fw_finish = 0;
-	ret = request_firmware_nowait(THIS_MODULE, true,
+	return request_firmware_nowait(THIS_MODULE, true,
 			GENERAL_SENSOR_FIRMWARE,
 			&general_sensor_device, GFP_KERNEL, NULL,
 			sensor_firmware_cb);
-
-	if (ret) {
-		SENSOR_DBG(DBG_LEVEL3, DBG_ALL_SENSORS,
-                        "Failed to request firmware!\n");
-	}
-	else {
-		while (fw_finish !=1) msleep(10);
-	}
-
-	return ret;
 }
 
 static ssize_t sensor_general_start_store(struct device *dev,

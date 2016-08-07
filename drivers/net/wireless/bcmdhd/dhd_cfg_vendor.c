@@ -1,15 +1,11 @@
 /*
  * Linux cfg80211 vendor command/event handlers of DHD
  *
- * $ Copyright Open Broadcom Corporation $
+ * $Copyright Open Broadcom Corporation$
  *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: dhd_cfg_vendor.c 525516 2015-01-09 23:12:53Z $
+ * $Id: dhd_cfg_vendor.c 487126 2014-06-24 23:06:12Z $
  */
 
-#include <linux/vmalloc.h>
 #include <linuxver.h>
 #include <net/cfg80211.h>
 #include <net/netlink.h>
@@ -19,7 +15,6 @@
 #include <wl_cfgvendor.h>
 #include <dngl_stats.h>
 #include <dhd.h>
-#include <dhd_dbg.h>
 #include <dhdioctl.h>
 #include <brcm_nl80211.h>
 

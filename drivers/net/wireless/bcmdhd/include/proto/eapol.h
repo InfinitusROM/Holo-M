@@ -5,12 +5,9 @@
  * IEEE Std 802.1X-2001
  * IEEE 802.1X RADIUS Usage Guidelines
  *
- * $ Copyright Open Broadcom Corporation $
- * 
+ * Copyright Open Broadcom Corporation
  *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: eapol.h 518342 2014-12-01 23:21:41Z $
+ * $Id: eapol.h 452703 2014-01-31 20:33:06Z $
  */
 
 #ifndef _eapol_h_

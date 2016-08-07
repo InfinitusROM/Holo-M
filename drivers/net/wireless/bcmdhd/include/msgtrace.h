@@ -1,12 +1,9 @@
 /*
  * Trace messages sent over HBUS
  *
- * $ Copyright Open Broadcom Corporation $
+ * $Copyright Open Broadcom Corporation$
  *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: msgtrace.h 514727 2014-11-12 03:02:48Z $
+ * $Id: msgtrace.h 439681 2013-11-27 15:39:50Z $
  */
 
 #ifndef	_MSGTRACE_H

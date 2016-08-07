@@ -35,12 +35,9 @@
  *              and instrumentation on top of the heap, without modifying the heap
  *              allocation implementation.
  *
- * $ Copyright Open Broadcom Corporation $
+ * $Copyright Open Broadcom Corporation$
  *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: bcm_mpool_pub.h 514727 2014-11-12 03:02:48Z $
+ * $Id: bcm_mpool_pub.h 407097 2013-06-11 18:43:16Z $
  */
 
 #ifndef _BCM_MPOOL_PUB_H

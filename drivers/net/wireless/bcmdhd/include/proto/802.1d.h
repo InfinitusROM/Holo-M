@@ -1,12 +1,9 @@
 /*
+ * $Copyright Open Broadcom Corporation$
+ *
  * Fundamental types and constants relating to 802.1D
  *
- * $ Copyright Open Broadcom Corporation $
- *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: 802.1d.h 518342 2014-12-01 23:21:41Z $
+ * $Id: 802.1d.h 382882 2013-02-04 23:24:31Z $
  */
 
 #ifndef _802_1_D_

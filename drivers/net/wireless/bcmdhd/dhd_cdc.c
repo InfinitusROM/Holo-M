@@ -1,12 +1,9 @@
 /*
  * DHD Protocol Module for CDC and BDC.
  *
- * $ Copyright Open Broadcom Corporation $
+ * $Copyright Open Broadcom Corporation$
  *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: dhd_cdc.c 553272 2015-04-29 07:27:21Z $
+ * $Id: dhd_cdc.c 472193 2014-04-23 06:27:38Z $
  *
  * BDC is like CDC, except it includes a header for data packets to convey
  * packet priority over the bus, and flags (e.g. to indicate checksum status
@@ -86,9 +83,6 @@ dhdcdc_cmplt(dhd_pub_t *dhd, uint32 id, uint32 len)
 
 	DHD_TRACE(("%s: Enter\n", __FUNCTION__));
 
-#if defined(CUSTOMER_HW5)
-	DHD_OS_WAKE_LOCK(dhd);
-#endif 
 
 	do {
 		ret = dhd_bus_rxctl(dhd->bus, (uchar*)&prot->msg, cdc_len);
@@ -96,9 +90,6 @@ dhdcdc_cmplt(dhd_pub_t *dhd, uint32 id, uint32 len)
 			break;
 	} while (CDC_IOC_ID(ltoh32(prot->msg.flags)) != id);
 
-#if defined(CUSTOMER_HW5)
-	DHD_OS_WAKE_UNLOCK(dhd);
-#endif 
 
 	return ret;
 }
@@ -412,7 +403,11 @@ dhd_prot_hdrpull(dhd_pub_t *dhd, int *ifidx, void *pktbuf, uchar *reorder_buf_in
 		goto exit;
 	}
 
-	*ifidx = BDC_GET_IF_IDX(h);
+	if ((*ifidx = BDC_GET_IF_IDX(h)) >= DHD_MAX_IFS) {
+		DHD_ERROR(("%s: rx data ifnum out of range (%d)\n",
+		           __FUNCTION__, *ifidx));
+		return BCME_ERROR;
+	}
 
 	if (((h->flags & BDC_FLAG_VER_MASK) >> BDC_FLAG_VER_SHIFT) != BDC_PROTO_VER) {
 		DHD_ERROR(("%s: non-BDC packet received, flags = 0x%x\n",
@@ -434,14 +429,12 @@ dhd_prot_hdrpull(dhd_pub_t *dhd, int *ifidx, void *pktbuf, uchar *reorder_buf_in
 	PKTPULL(dhd->osh, pktbuf, BDC_HEADER_LEN);
 #endif /* BDC */
 
-#if defined(NDISVER)
-#if (NDISVER < 0x0630)
+#if defined(NDISVER) && (NDISVER < 0x0630)
 	if (PKTLEN(dhd->osh, pktbuf) < (uint32) (data_offset << 2)) {
 		DHD_ERROR(("%s: rx data too short (%d < %d)\n", __FUNCTION__,
 		           PKTLEN(dhd->osh, pktbuf), (data_offset * 4)));
 		return BCME_ERROR;
 	}
-#endif /* #if defined(NDISVER) */
 #endif /* (NDISVER < 0x0630) */
 
 #ifdef PROP_TXSTATUS
@@ -547,7 +540,7 @@ done:
 
 int dhd_prot_init(dhd_pub_t *dhd)
 {
-	return BCME_OK;
+	return TRUE;
 }
 
 void

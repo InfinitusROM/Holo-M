@@ -1,12 +1,9 @@
 /*
+ * $Copyright Open Broadcom Corporation$
+ *
  * Fundamental constants relating to IP Protocol
  *
- * $ Copyright Open Broadcom Corporation $
- *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: bcmip.h 518342 2014-12-01 23:21:41Z $
+ * $Id: bcmip.h 458522 2014-02-27 02:26:15Z $
  */
 
 #ifndef _bcmip_h_

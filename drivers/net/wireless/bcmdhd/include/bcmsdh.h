@@ -3,12 +3,9 @@
  *     export functions to client drivers
  *     abstract OS and BUS specific details of SDIO
  *
- * $ Copyright Open Broadcom Corporation $
+ * $ Copyright Open License Broadcom Corporation $
  *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: bcmsdh.h 514727 2014-11-12 03:02:48Z $
+ * $Id: bcmsdh.h 450676 2014-01-22 22:45:13Z $
  */
 
 /**

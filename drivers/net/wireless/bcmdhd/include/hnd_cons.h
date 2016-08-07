@@ -1,12 +1,9 @@
 /*
  * Console support for RTE - for host use only.
  *
- * $ Copyright Open Broadcom Corporation $
+ * $Copyright Open Broadcom Corporation$
  *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: hnd_cons.h 514727 2014-11-12 03:02:48Z $
+ * $Id: hnd_cons.h 473343 2014-04-29 01:45:22Z $
  */
 #ifndef	_hnd_cons_h_
 #define	_hnd_cons_h_

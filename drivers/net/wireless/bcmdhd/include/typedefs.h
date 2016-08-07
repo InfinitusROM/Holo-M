@@ -1,10 +1,6 @@
 /*
- * $ Copyright Open Broadcom Corporation $
- *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: typedefs.h 514727 2014-11-12 03:02:48Z $
+ * $Copyright Open Broadcom Corporation$
+ * $Id: typedefs.h 484281 2014-06-12 22:42:26Z $
  */
 
 #ifndef _TYPEDEFS_H_
@@ -79,6 +75,7 @@ typedef long unsigned int size_t;
  * a duplicate typedef error; there is no way to "undefine" a typedef.
  * We know when it's per-port code because each file defines LINUX_PORT at the top.
  */
+#if !defined(LINUX_HYBRID) || defined(LINUX_PORT)
 #define TYPEDEF_UINT
 #ifndef TARGETENV_android
 #define TYPEDEF_USHORT
@@ -97,6 +94,7 @@ typedef long unsigned int size_t;
 #endif
 #endif	/* == 2.6.18 */
 #endif	/* __KERNEL__ */
+#endif  /* !defined(LINUX_HYBRID) || defined(LINUX_PORT) */
 
 
 /* Do not support the (u)int64 types with strict ansi for GNU C */
@@ -124,7 +122,9 @@ typedef long unsigned int size_t;
 #if defined(__KERNEL__)
 
 /* See note above */
+#if !defined(LINUX_HYBRID) || defined(LINUX_PORT)
 #include <linux/types.h>	/* sys/types.h and linux/types.h are oil and water */
+#endif /* !defined(LINUX_HYBRID) || defined(LINUX_PORT) */
 
 #else
 

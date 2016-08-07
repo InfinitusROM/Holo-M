@@ -2,12 +2,9 @@
  * SDIO Host Controller Spec header file
  * Register map and definitions for the Standard Host Controller
  *
- * $ Copyright Open Broadcom Corporation $
+ * $Copyright Open Broadcom Corporation$
  *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: sdioh.h 514727 2014-11-12 03:02:48Z $
+ * $Id: sdioh.h 345499 2012-07-18 06:59:05Z $
  */
 
 #ifndef	_SDIOH_H

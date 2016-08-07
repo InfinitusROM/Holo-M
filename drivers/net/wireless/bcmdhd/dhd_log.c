@@ -1,10 +1,7 @@
 /*
  * DHD logging module for internal debug
  *
- * $ Copyright Open Broadcom Corporation $
- *
- *
- * <<Broadcom-WL-IPTag/Open:>>
+ * $Copyright Open Broadcom Corporation$
  *
  * $Id: dhd_sdio.c 281456 2011-09-02 01:49:45Z $
  */

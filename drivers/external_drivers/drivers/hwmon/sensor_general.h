@@ -2,8 +2,6 @@
 #ifndef _SENSOR_GENERAL_H
 #define _SENSOR_GENERAL_H
 
-#include <linux/hrtimer.h>
-#include <linux/kthread.h>
 #define GENERAL_SENSOR_FIRMWARE "sensor_config.bin"
 #define MAX_SENSOR_DRIVERS	32
 
@@ -43,10 +41,7 @@ struct sensor_data {
 	struct mutex *lock;
 	struct mutex real_lock;
 
-	struct hrtimer work_timer;
-	struct completion report_complete;
-	struct task_struct *thread;
-	bool hrtimer_running;
+	struct delayed_work input_work;
 	/*work queue status*/
 	int launched;
 

@@ -1,12 +1,9 @@
 /*
  * BT-AMP (BlueTooth Alternate Mac and Phy) HCI (Host/Controller Interface)
  *
- * $ Copyright Open Broadcom Corporation $
+ * $Copyright Open Broadcom Corporation$
  *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: bt_amp_hci.h 518342 2014-12-01 23:21:41Z $
+ * $Id: bt_amp_hci.h 382882 2013-02-04 23:24:31Z $
 */
 
 #ifndef _bt_amp_hci_h
