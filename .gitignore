@@ -17,15 +17,16 @@
 *.ko
 *.so
 *.so.dbg
-*.mod.c
+*.m*
 modules.builtin
 *.elf
-*.bin
+*.bin*
 *.patch
 *.zip
 *modules.order
 *.symvers
 *bzImage
+vmlinux
 
 #
 # git files that we don't want to ignore even it they are dot-files
