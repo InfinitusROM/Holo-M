@@ -42,36 +42,27 @@
 #define NUMBER_OF_LEVELS_TNG_A0			4
 #define NUMBER_OF_LEVELS_MAX_FUSE		9
 
-#define DF_RGX_FREQ_KHZ_MIN             106000
-#define DF_RGX_FREQ_KHZ_MAX             640000
-
-#define DF_RGX_FREQ_KHZ_MIN_INITIAL     266000
-
-#define DF_RGX_INITIAL_FREQ_KHZ         266000
-
-#define DF_RGX_THERMAL_LIMITED_FREQ_KHZ 266000
 #ifdef CONFIG_PLATFORM_BTNS
 #define DF_RGX_FREQ_KHZ_MIN             106000
 #define DF_RGX_FREQ_KHZ_MAX             200000
 
-#define DF_RGX_INITIAL_FREQ_KHZ         DF_RGX_FREQ_KHZ_MIN
+#define DF_RGX_INITIAL_FREQ_KHZ         106000
 #define DF_RGX_THERMAL_LIMITED_FREQ_KHZ 106000
 #else
-#define DF_RGX_FREQ_KHZ_MIN             200000
+#define DF_RGX_FREQ_KHZ_MIN             106000
 #define DF_RGX_FREQ_KHZ_MAX             640000
 
-#define DF_RGX_INITIAL_FREQ_KHZ         320000
-#define DF_RGX_THERMAL_LIMITED_FREQ_KHZ 200000
+#define DF_RGX_FREQ_KHZ_MIN_INITIAL     213000
+#define DF_RGX_INITIAL_FREQ_KHZ         266000
+#define DF_RGX_THERMAL_LIMITED_FREQ_KHZ 213000
 
 #endif
 
 #define DF_RGX_FREQ_KHZ_MIN_INITIAL     DF_RGX_FREQ_KHZ_MIN
 typedef enum _DFRGX_FREQ_ {
-	DFRGX_FREQ_100_MHZ = 100000,
 	DFRGX_FREQ_106_MHZ = 106000,
 	DFRGX_FREQ_133_MHZ = 133000,
-	DFRGX_FREQ_160_MHZ = 160000,
-	DFRGX_FREQ_177_MHZ = 177000,
+	DFRGX_FREQ_166_MHZ = 166000,
 	DFRGX_FREQ_200_MHZ = 200000,
 	DFRGX_FREQ_213_MHZ = 213000,
 	DFRGX_FREQ_266_MHZ = 266000,
@@ -207,17 +198,19 @@ struct userspace_gov_data {
 
 /*Available states - freq mapping table*/
 static const struct gpu_utilization_record a_available_state_freq[] = {
-					{DFRGX_FREQ_166_MHZ, 0xF},					
-					{DFRGX_FREQ_200_MHZ, 0xE},
+					{DFRGX_FREQ_106_MHZ, 0xF},
+					{DFRGX_FREQ_133_MHZ, 0xE},
+					{DFRGX_FREQ_166_MHZ, 0xD},					
+					{DFRGX_FREQ_200_MHZ, 0xB},
 					/*Need a proper value for this freq*/
-					{DFRGX_FREQ_213_MHZ, 0xD},
-					{DFRGX_FREQ_266_MHZ, 0xB},
-					{DFRGX_FREQ_320_MHZ, 0x9},
-					{DFRGX_FREQ_355_MHZ, 0x8},
-					{DFRGX_FREQ_400_MHZ, 0x7},
-					{DFRGX_FREQ_457_MHZ, 0x6},
-					{DFRGX_FREQ_533_MHZ, 0x5},
-					{DFRGX_FREQ_640_MHZ, 0x4}
+					{DFRGX_FREQ_213_MHZ, 0x9},
+					{DFRGX_FREQ_266_MHZ, 0x8},
+					{DFRGX_FREQ_320_MHZ, 0x7},
+					{DFRGX_FREQ_355_MHZ, 0x6},
+					{DFRGX_FREQ_400_MHZ, 0x5},
+					{DFRGX_FREQ_457_MHZ, 0x4},
+					{DFRGX_FREQ_533_MHZ, 0x3},
+					{DFRGX_FREQ_640_MHZ, 0x2}
 					};
 
 unsigned int df_rgx_is_valid_freq(unsigned long int freq);
