@@ -163,9 +163,6 @@ export srctree objtree VPATH
 #ARCH
 CARCH := x86_64
 
-#Toolchain
-GCC :=/home/nyks45/gcc/bin/x86_64-linux-
-
 
 # SUBARCH tells the usermode build what the underlying arch is.  That is set
 # first, and if a usermode build is happening, the "ARCH=um" on the command
@@ -414,15 +411,6 @@ KBUILD_CFLAGS   := $(ANDROID_TOOLCHAIN_FLAGS) \
 
 # L1/L2 cache size parameters
 KBUILD_CFLAGS	+= --param l1-cache-size=32 --param l1-cache-line-size=32 --param l2-cache-size=2048
-
-		   -fno-strict-aliasing -fno-common \
-		   -Werror-implicit-function-declaration \
-		   -Wno-format-security \
-		   -fno-delete-null-pointer-checks
-		   -fno-delete-null-pointer-checks \
-		   -Wno-sizeof-pointer-memaccess \
- 		   -std=gnu89 \
-		   $(KERNEL_MODS)
 
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL := $(KERNEL_MODS)
