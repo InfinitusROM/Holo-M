@@ -581,12 +581,7 @@ static int tcd_get_force_state_override(struct thermal_cooling_device *tcd,
 			bfdata->gpudata[3].freq_limit,
 			bfdata->gpudata[4].freq_limit,
 			bfdata->gpudata[5].freq_limit,
-			bfdata->gpudata[6].freq_limit,
-			bfdata->gpudata[7].freq_limit,
-			bfdata->gpudata[8].freq_limit,
-			bfdata->gpudata[9].freq_limit,
-			bfdata->gpudata[10].freq_limit,
-			bfdata->gpudata[11].freq_limit);
+			bfdata->gpudata[6].freq_limit);
 }
 
 /**
@@ -618,12 +613,7 @@ static int tcd_set_force_state_override(struct thermal_cooling_device *tcd,
 			 &freqs[3],
 			 &freqs[4],
 			 &freqs[5],
-			 &freqs[6],
-			 &freqs[7],
-			 &freqs[8],
-			 &freqs[9],
-			 &freqs[10],
-			 &freqs[11]);
+			 &freqs[6]);
 
 	DFRGX_DPF(DFRGX_DEBUG_HIGH, "%s values: %lu %lu %lu %lu %lu %lu %lu\n", __func__,
 			freqs[0],
@@ -632,12 +622,7 @@ static int tcd_set_force_state_override(struct thermal_cooling_device *tcd,
 			freqs[3],
 			freqs[4],
 			freqs[5],
-			freqs[6],
-			freqs[7],
-			freqs[8],
-			freqs[9],
-			freqs[10],
-			freqs[11]);
+			freqs[6]);
 
 	for (i = 0; (i < THERMAL_COOLING_DEVICE_MAX_STATE) &&
 				df_rgx_is_valid_freq(freqs[i]) &&
@@ -772,9 +757,13 @@ static int df_rgx_busfreq_probe(struct platform_device *pdev)
 		df->min_freq = DFRGX_FREQ_457_MHZ;
 		df->max_freq = DFRGX_FREQ_640_MHZ;
 	}
-	else {
+	else {*/
 	df->min_freq = DF_RGX_FREQ_KHZ_MIN;
 	df->max_freq = DF_RGX_FREQ_KHZ_MAX;
+	//}
+	else {
+		df->min_freq = DFRGX_FREQ_457_MHZ;
+		df->max_freq = DFRGX_FREQ_533_MHZ;
 	}
 /*if this is BTNS we use powersave governor at 106MHZ fixed*/
 #ifdef CONFIG_PLATFORM_BTNS
@@ -793,15 +782,10 @@ static int df_rgx_busfreq_probe(struct platform_device *pdev)
 	bfdata->gpudata[0].freq_limit = DFRGX_FREQ_640_MHZ;
 	bfdata->gpudata[1].freq_limit = DFRGX_FREQ_533_MHZ;
 	bfdata->gpudata[2].freq_limit = DFRGX_FREQ_457_MHZ;
-	bfdata->gpudata[3].freq_limit = DFRGX_FREQ_400_MHZ;
-	bfdata->gpudata[4].freq_limit = DFRGX_FREQ_355_MHZ;
-	bfdata->gpudata[5].freq_limit = DFRGX_FREQ_320_MHZ;
-	bfdata->gpudata[6].freq_limit = DFRGX_FREQ_266_MHZ;
-	bfdata->gpudata[7].freq_limit = DFRGX_FREQ_213_MHZ;
-	bfdata->gpudata[8].freq_limit = DFRGX_FREQ_200_MHZ;
-	bfdata->gpudata[9].freq_limit = DFRGX_FREQ_166_MHZ;
-	bfdata->gpudata[10].freq_limit = DFRGX_FREQ_133_MHZ;
-	bfdata->gpudata[11].freq_limit = DFRGX_FREQ_106_MHZ;
+	bfdata->gpudata[3].freq_limit = DFRGX_FREQ_320_MHZ;
+	bfdata->gpudata[4].freq_limit = DFRGX_FREQ_266_MHZ;
+	bfdata->gpudata[5].freq_limit = DFRGX_FREQ_200_MHZ;
+	bfdata->gpudata[6].freq_limit = DFRGX_FREQ_166_MHZ;
 
 
 	df_rgx_init_available_freq_table(dev);
