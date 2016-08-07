@@ -382,7 +382,7 @@ static inline unsigned int cpufreq_quick_get_max(unsigned int cpu)
  *********************************************************************/
 
 
-*
+/*
   Performance governor is fallback governor if any other gov failed to
   auto load due latency restrictions
 */
