@@ -755,21 +755,22 @@ static int df_rgx_busfreq_probe(struct platform_device *pdev)
 		df->min_freq = DFRGX_FREQ_200_MHZ;
 		df->max_freq = DFRGX_FREQ_640_MHZ;
 	}
+	OR
 	if (df_rgx_is_max_fuse_set()) {
 		df->min_freq = DFRGX_FREQ_457_MHZ;
 		df->max_freq = DFRGX_FREQ_640_MHZ;
 	}
-	else {*/
-	if(scr_suspended == false) {
-		df->min_freq = DFRGX_FREQ_320_MHZ; }
-	else {
-		df->min_freq = DF_RGX_FREQ_KHZ_MIN; }
-	df->max_freq = DF_RGX_FREQ_KHZ_MAX;
-	//}
+	----common----
 	else {
 		df->min_freq = DFRGX_FREQ_457_MHZ;
 		df->max_freq = DFRGX_FREQ_533_MHZ;
-	}
+	}*/
+if(scr_suspended == false) {
+		df->min_freq = DFRGX_FREQ_320_MHZ; }
+	else {
+		df->min_freq = DF_RGX_FREQ_KHZ_MIN; 
+		df->max_freq = DF_RGX_FREQ_KHZ_MAX;
+		}
 /*if this is BTNS we use powersave governor at 106MHZ fixed*/
 #ifdef CONFIG_PLATFORM_BTNS
 	df->min_freq = DFRGX_FREQ_106_MHZ;
