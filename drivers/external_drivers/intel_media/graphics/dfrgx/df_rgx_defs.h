@@ -49,11 +49,12 @@
 #define DF_RGX_INITIAL_FREQ_KHZ         DF_RGX_FREQ_KHZ_MIN
 #define DF_RGX_THERMAL_LIMITED_FREQ_KHZ 166000
 #else
-#define DF_RGX_FREQ_KHZ_MIN             106000
+
+#define DF_RGX_FREQ_KHZ_MIN             166000
 
 #define DF_RGX_FREQ_KHZ_MAX             640000
 
-#define DF_RGX_FREQ_KHZ_MIN_INITIAL     266000
+#define DF_RGX_FREQ_KHZ_MIN_INITIAL     200000
 
 #define DF_RGX_INITIAL_FREQ_KHZ         266000
 
@@ -94,19 +95,18 @@ typedef enum _DFRGX_BURST_MODE_ {
 
 struct gpu_util_stats {
 	/* if TRUE, statistict are valid, otherwise
-	* there was not enough data to calculate the times
+	* there was not enough data to calculate the ratios
 	*/
 	unsigned int				bValid;
-	/* GPU active time expressed in ms */
-	unsigned long long			ui64GpuStatActiveHigh;
-	/* GPU active time expressed in ms */
-	unsigned long long			ui64GpuStatActiveLow;
-	/* GPU blocked time expressed in ms */
-	unsigned long long			ui64GpuStatBlocked;
-	/* GPU idle time expressed in ms */
-	unsigned long long			ui64GpuStatIdle;
-	/* GPU time cumulative total in ms */
-	unsigned long long			ui64GpuStatCumulative;
+	unsigned int				bIncompleteData;
+	/* GPU active  ratio expressed in 0,01% units */
+	unsigned int				ui32GpuStatActiveHigh;
+	/* GPU active  ratio expressed in 0,01% units */
+	unsigned int				ui32GpuStatActiveLow;
+	/* GPU blocked ratio expressed in 0,01% units */
+	unsigned int				ui32GpuStatBlocked;
+	/* GPU idle    ratio expressed in 0,01% units */
+	unsigned int				ui32GpuStatIdle;
 };
 
 /**
