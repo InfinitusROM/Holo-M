@@ -8,9 +8,6 @@ export ARCH=x86_64
 export CCOMPILE=$CROSS_COMPILE
 export CROSS_COMPILE=x86_64-linux-
 
-#Force selinux to enforcing (this makes sure that if we build cyanogen kernel just after nethunter, we have enforcing state)
-sed -i '50s|.*|  /tmp/anykernel/tools/mkbootimg --kernel /tmp/anykernel/bzImage --ramdisk /tmp/anykernel/initramfs.cpio.gz --cmdline "init=/init pci=noearly loglevel=0 vmalloc=256M androidboot.hardware=mofd_v1 watchdog.watchdog_thresh=60 androidboot.spid=xxxx:xxxx:xxxx:xxxx:xxxx:xxxx androidboot.serialno=01234567890123456789 snd_pcm.maximum_substreams=8 ip=50.0.0.2:50.0.0.1::255.255.255.0::usb0:on debug_locks=0 bootboost=1" --base 0x10000000 --pagesize 2048 --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --second /tmp/anykernel/second.gz -o /tmp/anykernel/boot-new.img;|g' out/anykernel.sh
-
 #CONFIGS
 export SLEEP=1
 echo "Setting CPU Cores/Threads"
@@ -19,11 +16,15 @@ printf "Enter Version Number:////:"
 sleep $SLEEP
 read -t8 v
 echo "Setting Extra Version"
-export EV=EXTRAVERSION=_Hololite_v$v
+export EV=EXTRAVERSION=_Holo_M_v$v
 echo "Setting Defconfig"
 export DEFCONFIG=holo_zenfone2_defconfig
 echo "SElinux set to Enforcing"
-echo "Setting bzImage Location For Hololite kernel By nutcasev1.5 Of XDA (thanks to eoghan2t7)"
+
+#Force selinux to enforcing (this makes sure that if we build cyanogen kernel just after nethunter, we have enforcing state)
+sed -i '50s|.*|  /tmp/anykernel/tools/mkbootimg --kernel /tmp/anykernel/bzImage --ramdisk /tmp/anykernel/initramfs.cpio.gz --cmdline "init=/init pci=noearly loglevel=0 vmalloc=256M androidboot.hardware=mofd_v1 watchdog.watchdog_thresh=60 androidboot.spid=xxxx:xxxx:xxxx:xxxx:xxxx:xxxx androidboot.serialno=01234567890123456789 snd_pcm.maximum_substreams=8 ip=50.0.0.2:50.0.0.1::255.255.255.0::usb0:on debug_locks=0 bootboost=1" --base 0x10000000 --pagesize 2048 --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --second /tmp/anykernel/second.gz -o /tmp/anykernel/boot-new.img;|g' out/anykernel.sh
+
+echo "Setting bzImage Location"
 export BZIMAGE=arch/x86/boot/bzImage
 echo "Enabling Graphite Optimizations"
 export ENABLE_GRAPHITE=true
@@ -34,11 +35,11 @@ echo "Enviroment Setup Complete Now Moving To Compiling"
 #Build
 echo "Cleaning Out Compiled Files"
 sleep $SLEEP
-make clean && make mrproper
+make mrproper
 find . -name "*.o" -type f -delete
 echo "Build Logs will be deleted in 5s"
 sleep 5
-rm -f .logs*.log
+rm -f .log*.log
 echo "Starting Build Process"
 sleep $SLEEP
 if [ -f .config ];
@@ -51,11 +52,11 @@ else
    echo "Compiling From $DEFCONFIG"
    if [[ "$logs" == 1 ]];
 	then
-		make $DEFCONFIG $EV -j$CPUS 2>&1 | tee .logs_"$start".log
+		make $DEFCONFIG $EV -j$CPUS 2>&1 | tee .log_"$start".log
 		unset logs
 	elif [[ "$logs" == 101 ]]
 	then
-		make $DEFCONFIG $EV -j$CPUS 2>&1 | tee .logs_"$start".log
+		make $DEFCONFIG $EV -j$CPUS 2>&1 | tee .log_"$start".log
 	else
 		make $DEFCONFIG $EV -j$CPUS
 	fi
@@ -63,11 +64,11 @@ fi
 #
 if [[ "$logs" == 1 ]];
 then
-	make $EV -j$CPUS 2>&1 | tee .logs_"$start".log
+	make $EV -j$CPUS 2>&1 | tee .log_"$start".log
 	unset logs
 elif [[ "$logs" == 101 ]]
 then
-	make $EV -j$CPUS 2>&1 | tee .logs_"$start".log
+	make $EV -j$CPUS 2>&1 | tee .log_"$start".log
 else
 	make $EV -j$CPUS
 fi
@@ -103,13 +104,13 @@ sleep $SLEEP
 echo "Copying bzImage"
 mv ../arch/x86/boot/bzImage bzImage
 sleep $SLEEP
-echo "Compiling Hololite_v"$v".zip"
+echo "Compiling HoloM_v"$v".zip"
 find . -type f -exec zip HoloM_v"$v".zip {} +
 nowf=$(date +"%T")
 cd ..
 rm out/bzImage
 printf "cleaned files"
-printf "\n\nzip created\n"
+printf "zip created"
 
 #Force selinux to enforcing (this makes sure that if we build cyanogen kernel just after nethunter, we have enforcing state)
 sed -i '50s|.*|  /tmp/anykernel/tools/mkbootimg --kernel /tmp/anykernel/bzImage --ramdisk /tmp/anykernel/initramfs.cpio.gz --cmdline "init=/init pci=noearly loglevel=0 vmalloc=256M androidboot.hardware=mofd_v1 watchdog.watchdog_thresh=60 androidboot.spid=xxxx:xxxx:xxxx:xxxx:xxxx:xxxx androidboot.serialno=01234567890123456789 snd_pcm.maximum_substreams=8 ip=50.0.0.2:50.0.0.1::255.255.255.0::usb0:on debug_locks=0 bootboost=1" --base 0x10000000 --pagesize 2048 --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --second /tmp/anykernel/second.gz -o /tmp/anykernel/boot-new.img;|g' out/anykernel.sh
@@ -117,8 +118,8 @@ sed -i '50s|.*|  /tmp/anykernel/tools/mkbootimg --kernel /tmp/anykernel/bzImage 
 end=`date +%s`
 runtime=$((end-start))
 echo "Completion Time :"
-echo "$runtime sec\n"
+echo "$runtime seconds"
 unset SLEEP
 unset v
 unset CPUS
-printf "Done /n"
+printf "Done"
