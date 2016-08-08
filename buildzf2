@@ -104,7 +104,7 @@ echo "Copying bzImage"
 mv ../arch/x86/boot/bzImage bzImage
 sleep $SLEEP
 echo "Compiling Hololite_v"$v".zip"
-find . -type f -exec zip Hololite_v"$v".zip {} +
+find . -type f -exec zip HoloM_v"$v".zip {} +
 nowf=$(date +"%T")
 cd ..
 rm out/bzImage
