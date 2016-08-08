@@ -54,7 +54,7 @@
 
 #define DF_RGX_FREQ_KHZ_MAX             640000
 
-#define DF_RGX_FREQ_KHZ_MIN_INITIAL     200000
+#define DF_RGX_FREQ_KHZ_MIN_INITIAL     266000
 
 #define DF_RGX_INITIAL_FREQ_KHZ         266000
 
