@@ -181,6 +181,12 @@ config CPU_FREQ_GOV_FRANKENSTEIN
 	tristate "'frankenstein' cpufreq policy governor"
 	depends on CPU_FREQ_GOV_PERFORMANCE	
 	default y
+
+config CPU_FREQ_GOV_THESSJACTIVE
+	tristate "'thessjactive' cpufreq policy governor"
+	depends on CPU_FREQ	
+	help
+	credits to TheSSJ
 	
 config CPU_FREQ_GOV_INTEL
 	tristate "'intel' cpufreq policy governor"	

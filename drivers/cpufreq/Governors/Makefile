@@ -5,3 +5,5 @@ obj-$(CONFIG_CPU_FREQ_GOV_COMMON)		+= cpufreq_governor.o
 obj-$(CONFIG_CPU_FREQ_GOV_INTERACTIVEX)	         += cpufreq_interactivex.o
 obj-$(CONFIG_CPU_FREQ_GOV_FRANKENSTEIN)        	 += cpufreq_frankenstein.o
 obj-$(CONFIG_CPU_FREQ_GOV_LAGFREE)             += cpufreq_smartass2.o
+obj-$(CONFIG_CPU_FREQ_GOV_INTEL)             += cpufreq_intel.o
+obj-$(CONFIG_CPU_FREQ_GOV_THESSJACTIVE)             += cpufreq_thessjactive.o
