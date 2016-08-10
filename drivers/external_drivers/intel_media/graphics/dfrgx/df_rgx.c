@@ -761,7 +761,7 @@ if(scr_suspended == true) {
 		df->min_freq = DFRGX_FREQ_166_MHZ;
 		df->max_freq = DFRGX_FREQ_200_MHZ;}
 	else {
-		df->min_freq = DFRGX_FREQ_457_MHZ; 
+		df->min_freq = DFRGX_FREQ_320_MHZ; 
 		df->max_freq = DFRGX_FREQ_640_MHZ;
 		}
 /*if this is BTNS we use powersave governor at 106MHZ fixed*/
