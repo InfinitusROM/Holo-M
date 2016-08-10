@@ -37,7 +37,7 @@
 #include <asm/cputime.h>
 #include <linux/module.h>
 
-#include "sfi-cpufreq.h"
+#include "../sfi-cpufreq.h"
 
 #define CREATE_TRACE_POINTS
 #include <trace/events/cpufreq_intel.h>
