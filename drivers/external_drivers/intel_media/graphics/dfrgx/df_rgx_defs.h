@@ -199,14 +199,11 @@ static const struct gpu_utilization_record a_available_state_freq[] = {
 					{DFRGX_FREQ_166_MHZ, 0xF},					
 					{DFRGX_FREQ_200_MHZ, 0xE},
 					/*Need a proper value for this freq*/
-					{DFRGX_FREQ_213_MHZ, 0xD},
-					{DFRGX_FREQ_266_MHZ, 0xB},
-					{DFRGX_FREQ_320_MHZ, 0x9},
-					{DFRGX_FREQ_355_MHZ, 0x8},
-					{DFRGX_FREQ_400_MHZ, 0x7},
-					{DFRGX_FREQ_457_MHZ, 0x6},
-					{DFRGX_FREQ_533_MHZ, 0x5},
-					{DFRGX_FREQ_640_MHZ, 0x4}
+					{DFRGX_FREQ_266_MHZ, 0xD},
+					{DFRGX_FREQ_320_MHZ, 0xB},
+					{DFRGX_FREQ_457_MHZ, 0x9},
+					{DFRGX_FREQ_533_MHZ, 0x8},
+					{DFRGX_FREQ_640_MHZ, 0x7}
 					};
 
 unsigned int df_rgx_is_valid_freq(unsigned long int freq);
