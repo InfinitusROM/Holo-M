@@ -79,14 +79,11 @@ config CPU_FREQ_DEFAULT_GOV_POWERSAVE
 	  the frequency statically to the lowest frequency supported by
 	  the CPU.
 
-config CPU_FREQ_DEFAULT_GOV_INTERACTIVEX
-	bool "interactiveX"
-	select CPU_FREQ_GOV_INTERACTIVEX
+config CPU_FREQ_DEFAULT_GOV_BLUACTIVE
+	bool "bluactive"
+	select CPU_FREQ_GOV_BLUACTIVE
 	help
-	  Use the CPUFreq governor 'interactiveX' as default. This allows
-	  you to get a full dynamic cpu frequency capable system by simply
-	  loading your cpufreq low-level hardware driver, using the
-	  'interactiveX' governor for latency-sensitive workloads.
+	  A Hotplugged version of Interactive governor.
 
 config CPU_FREQ_DEFAULT_GOV_FRANKENSTEIN
 	bool "frankenstein"
@@ -123,6 +120,12 @@ config CPU_FREQ_DEFAULT_GOV_LAGFREE
           Be aware that not all cpufreq drivers support the lagfree
           governor. If unsure have a look at the help section of the
           driver. Fallback governor will be the performance governor.
+		  
+config CPU_FREQ_DEFAULT_GOV_THESSJACTIVE
+		bool "thessjactive"
+		select CPU_FREQ_GOV_THESSJACTIVE
+		help
+		  Credits to The SSJ.
 
 endchoice
 
@@ -154,11 +157,11 @@ config CPU_FREQ_GOV_SMARTASS2
   	help
     	'smartassV2' - a "smart" governor
 		
-config CPU_FREQ_GOV_INTERACTIVEX
-	tristate "'interactiveX' cpufreq policy governor"	
+config CPU_FREQ_GOV_BLUACTIVE
+	tristate "'bluactive' cpufreq policy governor"	
 	default y	
 	help
-		A less aggressive version of Interactive governor
+		A Hotplugged version of Interactive governor.
 	
 config CPU_FREQ_GOV_LAGFREE
         tristate "'lagfree' cpufreq governor"
