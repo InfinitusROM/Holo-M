@@ -1519,7 +1519,7 @@ static int cpufreq_governor_thessjactive(struct cpufreq_policy *policy,
 	return 0;
 }
 
-#ifndef CONFIG_CPU_FREQ_DEFAULT_GOV_THESSJACTIVE
+#ifndef CONFIG_CPU_FREQ_DEFAULT_GOV_thessjactive
 static
 #endif
 struct cpufreq_governor cpufreq_gov_thessjactive = {
