@@ -50,7 +50,7 @@
  *    ...
  *    sfi-entry 25 = 500MHz
  * 
- *    The underclocking mechanics just add 3 more P-States at the end of the freq-table
+ *    The underclocking mechanics just add 2 more P-States at the end of the freq-table
  *    Original PStates:
  *    ...
  *    sfi-entry 23 (or 25, if OC selected) = 500MHz
@@ -60,12 +60,11 @@
  *    sfi-entry 23/25 = 500MHz
  *    sfi-entry 24/26 = 416MHz
  *    sfi-entry 25/27 = 333MHz
- *    sfi-entry 26/28 = 250MHz
  * 
  *    The maximum index which can be used for the sfi freq table is 32 (see SFI_FREQ_MAX below)
  * 
- *    As we don't want to get greedy, net increase(166Mhz)/decrease(250Mhz) "only". Of course this boundary could be
- *    even higher/lower.
+ *    As we don't want to get greedy, net increase/decrease of frequency is 166MHz "only". Of course this boundary could be
+ *    even higher/lower, but my phone is my daily driver so I won't just test more frequency ranges. 
  */
 
 #include <linux/kernel.h>
@@ -177,6 +176,10 @@ static int sfi_processor_get_performance_states(struct sfi_processor *pr)
 	sfi_cpufreq_num = sfi_cpufreq_num + 2; //we need +2 states for the OC
 #endif	
 
+#ifdef CPU_ATOM_UNDERCLOCK
+	sfi_cpufreq_num = sfi_cpufreq_num + 3; //additional +3 states for the UC, just needed below for the memory allocation
+#endif
+
 	pr->performance->state_count = sfi_cpufreq_num;	
 	pr->performance->states =
 	    kmalloc(sizeof(struct sfi_processor_px) * sfi_cpufreq_num,
@@ -230,11 +233,10 @@ static int sfi_processor_get_performance_states(struct sfi_processor *pr)
 	}
 #endif
 
-#ifdef CONFIG_CPU_ATOM_UNDERCLOCK
-	sfi_cpufreq_num = sfi_cpufreq_num + 3; //and now add them back again for cosmetic purposes to make the code more understandable
-	
+#ifdef CPU_ATOM_UNDERCLOCK
 //+State [23]: core_frequency[416] transition_latency[100] control[0x52f] -84MHz	100	0x101
 //+State [24]: core_frequency[333] transition_latency[100] control[0x42e] -83MHz	100	0x101
+//+State [25]: core_frequency[250] transition_latency[100] control[0x32d] -83MHz	100	0x101
 	pr->performance->states[sfi_cpufreq_num-3].core_frequency = sfi_cpufreq_array[last_PState].freq_mhz - 84; //416MHz
 	pr->performance->states[sfi_cpufreq_num-3].transition_latency = sfi_cpufreq_array[last_PState].latency;
 	pr->performance->states[sfi_cpufreq_num-3].control = sfi_cpufreq_array[last_PState].ctrl_val - 0x101;
