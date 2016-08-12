@@ -177,10 +177,6 @@ static int sfi_processor_get_performance_states(struct sfi_processor *pr)
 	sfi_cpufreq_num = sfi_cpufreq_num + 2; //we need +2 states for the OC
 #endif	
 
-#ifdef CONFIG_CPU_ATOM_UNDERCLOCK
-	sfi_cpufreq_num = sfi_cpufreq_num + 3; //additional +2 states for the UC, just needed below for the memory allocation
-#endif
-
 	pr->performance->state_count = sfi_cpufreq_num;	
 	pr->performance->states =
 	    kmalloc(sizeof(struct sfi_processor_px) * sfi_cpufreq_num,
@@ -189,10 +185,6 @@ static int sfi_processor_get_performance_states(struct sfi_processor *pr)
 		result = -ENOMEM;
 
 	printk(KERN_INFO "Num p-states %d\n", sfi_cpufreq_num);
-
-#ifdef CONFIG_CPU_ATOM_UNDERCLOCK
-	sfi_cpufreq_num = sfi_cpufreq_num - 3; //need to remove the 2 UC states temporarily
-#endif
 
 #ifdef CPU_ATOM_OVERCLOCK
 /*
@@ -253,7 +245,7 @@ static int sfi_processor_get_performance_states(struct sfi_processor *pr)
 	pr->performance->states[sfi_cpufreq_num-1].transition_latency = sfi_cpufreq_array[last_PState].latency;
 	pr->performance->states[sfi_cpufreq_num-1].control = sfi_cpufreq_array[last_PState].ctrl_val - 0x101 - 0x101 - 0x101;
 		
-	for(i = sfi_cpufreq_num - 3; i<sfi_cpufreq_num; i++)
+	for(i = sfi_cpufreq_num - 3; i < sfi_cpufreq_num; i++)
 	{
 		printk(KERN_INFO "UC State [%d]: core_frequency[%d] transition_latency[%d] control[0x%x]\n",
 			i,
