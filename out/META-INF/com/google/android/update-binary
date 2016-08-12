@@ -72,7 +72,7 @@ if [ "$(file_getprop /tmp/anykernel/anykernel.sh do.initd)" == 1 ]; then
   set_perm_recursive 0 0 0755 0755 /system/etc/init.d;
 fi;
 
-ui_print "Installing Holo-M kernel...";
+ui_print "Installing OctoDex kernel...";
 /sbin/sh /tmp/anykernel/anykernel.sh;
 if [ "$(cat /tmp/anykernel/exitcode)" == 1 ]; then 
   umount /system;
@@ -91,6 +91,7 @@ if [ "$(file_getprop /tmp/anykernel/anykernel.sh do.cleanup)" == 1 ]; then
 fi;
 
 umount /system;
-ui_print "Thanks to @say99 & @Nyks45 ";
-ui_print "Stock (ROM) Partition Nuked, Boot will fail :P";
+ui_print " ";
+ui_print "Device Bricked Have Fun With Bricked Device :P";
 ui_print "Done!";
+
