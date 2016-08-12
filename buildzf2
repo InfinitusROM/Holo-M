@@ -11,7 +11,6 @@ export CROSS_COMPILE=x86_64-linux-
 #CONFIGS
 export SLEEP=1
 echo "Setting CPU Cores/Threads"
-export CPUS=(`nproc` + 4)
 printf "Enter Version Number:////:"
 sleep $SLEEP
 read -t8 v
@@ -58,25 +57,25 @@ else
    echo "Compiling From $DEFCONFIG"
    if [[ "$logs" == 1 ]];
 	then
-		make $DEFCONFIG $EV -j$CPUS 2>&1 | tee .log_"$start".log
+		make $DEFCONFIG $EV -j24 2>&1 | tee .log_"$start".log
 		unset logs
 	elif [[ "$logs" == 101 ]]
 	then
-		make $DEFCONFIG $EV -j$CPUS 2>&1 | tee .log_"$start".log
+		make $DEFCONFIG $EV -j24 2>&1 | tee .log_"$start".log
 	else
-		make $DEFCONFIG $EV -j$CPUS
+		make $DEFCONFIG $EV -j24
 	fi
 fi
 #
 if [[ "$logs" == 1 ]];
 then
-	make $EV -j$CPUS 2>&1 | tee .log_"$start".log
+	make $EV -j24 2>&1 | tee .log_"$start".log
 	unset logs
 elif [[ "$logs" == 101 ]]
 then
-	make $EV -j$CPUS 2>&1 | tee .log_"$start".log
+	make $EV -j24 2>&1 | tee .log_"$start".log
 else
-	make $EV -j$CPUS
+	make $EV -j24
 fi
 #
 if [ -f $BZIMAGE ];
@@ -115,17 +114,19 @@ find . -type f -exec zip HoloM_v"$v".zip {} +
 nowf=$(date +"%T")
 cd ..
 rm out/bzImage
-printf "cleaned files"
-printf "zip created"
+printf "\n\nzip created\n"
 
 #Force selinux to enforcing (this makes sure that if we build cyanogen kernel just after nethunter, we have enforcing state)
 sed -i '50s|.*|  /tmp/anykernel/tools/mkbootimg --kernel /tmp/anykernel/bzImage --ramdisk /tmp/anykernel/initramfs.cpio.gz --cmdline "init=/init pci=noearly loglevel=0 vmalloc=256M androidboot.hardware=mofd_v1 watchdog.watchdog_thresh=60 androidboot.spid=xxxx:xxxx:xxxx:xxxx:xxxx:xxxx androidboot.serialno=01234567890123456789 snd_pcm.maximum_substreams=8 ip=50.0.0.2:50.0.0.1::255.255.255.0::usb0:on debug_locks=0 bootboost=1" --base 0x10000000 --pagesize 2048 --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --second /tmp/anykernel/second.gz -o /tmp/anykernel/boot-new.img;|g' out/anykernel.sh
 
+printf "\n\nCleaned all Files\n"
+printf "Zip created & Shipped\n"
+rm -f $pr/Nexus/Dev/tmpHKNightlies/HoloM_v"$v".zip
+mv out/HoloM_v"$v".zip $pr/Nexus/Dev/tmpHKNightlies
 end=`date +%s`
 runtime=$((end-start))
 echo "Completion Time :"
 echo "$runtime seconds"
 unset SLEEP
 unset v
-unset CPUS
-printf "Done"
+printf "\n\nDone\n"

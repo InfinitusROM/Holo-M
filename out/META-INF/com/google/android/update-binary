@@ -32,17 +32,21 @@ cd /tmp/anykernel;
 unzip -o "$ZIP";
 
 ui_print "$(file_getprop /tmp/anykernel/anykernel.sh kernel.string)";
-ui_print "  ___   __  _____   __       _____             ";
-ui_print " /\  \ /\ \/\  __`\/\ \     /\  __`\           ";
-ui_print " \\\  \//\ \\\ \/\ \\\ \    \\\ \/\ \          ";
-ui_print "	\\\  ____ \\\ \\\ \\\ \    \\\ \\\ \         ";
-ui_print "	 \\\ \ \\\ \\\ \_\ \\\ \____\\\ \_\ \  \    /";
-ui_print "	  \\\_\ \\\_\\\_____\\\______\\\_____\ |\  /|";
-ui_print "	   \/_/  \/_/\/_____/\/______/\/_____/ | \/ |";
-ui_print "                                        Kernel ";
-ui_print "	                By Nutcasev1.5               ";
-ui_print "	             Illustration by Ezra            ";
-	
+ui_print "      _   _    __    _       __       "; 
+ui_print "     | |_| |  /  \  | |     /  \      ";
+ui_print "     |  _  | |    | | |__  |    |     ";
+ui_print "     |_| |_|  \__/  |____|  \__/      ";
+ui_print "              ________                ";
+ui_print "            /\  _   _  \              ";
+ui_print "   Speed  > \\\ \_\ \_\ \     < pOC/UC";
+ui_print "Stability >  \\\  __  __ \    < BLX   ";
+ui_print "  Support >   \\\ \\\ \\\ \   < Govs  ";
+ui_print " Sh**less >    \\\ \_\ \_\ \  < I/O   ";
+ui_print "                \/_/\/_/\/_/          ";
+ui_print "                                      ";
+ui_print "                 KERNEL               ";
+ui_print "            By Nutcasev1.5            ";
+ui_print "         Illustration by Ezra         ";
 
 /sbin/busybox mount /system;
 
@@ -88,6 +92,5 @@ fi;
 
 umount /system;
 ui_print "Thanks to @say99 & @Nyks45 ";
-ui_print "Device Bricked Have Fun With Bricked Device :P";
+ui_print "Stock (ROM) Partition Nuked, Boot will fail :P";
 ui_print "Done!";
-
