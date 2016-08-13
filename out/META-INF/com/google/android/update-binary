@@ -32,21 +32,20 @@ cd /tmp/anykernel;
 unzip -o "$ZIP";
 
 ui_print "$(file_getprop /tmp/anykernel/anykernel.sh kernel.string)";
-ui_print "      _   _    __    _       __       "; 
-ui_print "     | |_| |  /  \  | |     /  \      ";
-ui_print "     |  _  | |    | | |__  |    |     ";
-ui_print "     |_| |_|  \__/  |____|  \__/      ";
-ui_print "              ________                ";
-ui_print "            /\  _   _  \              ";
-ui_print "   Speed  > \\\ \_\ \_\ \     < pOC/UC";
-ui_print "Stability >  \\\  __  __ \    < BLX   ";
-ui_print "  Support >   \\\ \\\ \\\ \   < Govs  ";
-ui_print " Sh**less >    \\\ \_\ \_\ \  < I/O   ";
-ui_print "                \/_/\/_/\/_/          ";
-ui_print "                                      ";
-ui_print "                 KERNEL               ";
-ui_print "            By Nutcasev1.5            ";
-ui_print "         Illustration by Ezra         ";
+ui_print "      _   _    __    _       __     "; 
+ui_print "     | |_| |  /  \  | |     /  \    ";
+ui_print "     |  _  | |    | | |__  |    |   ";
+ui_print "     |_| |_|  \__/  |____|  \__/    ";
+ui_print "              ___    ___            ";
+ui_print "   Speed  >  /   \  /   \   < pOC/UC";
+ui_print "Stability >  | |\ \/ /| |   < BLX   ";
+ui_print "  Support >  | | \__/ | |   < Govs  ";
+ui_print " Sh**less >  | |      | |   < I/O   ";
+ui_print "             |_|      |_|           ";
+ui_print "                                    ";
+ui_print "                KERNEL              ";
+ui_print "           By Nutcasev1.5           ";
+ui_print "    Illustration by Ezra & say99    ";
 
 /sbin/busybox mount /system;
 
