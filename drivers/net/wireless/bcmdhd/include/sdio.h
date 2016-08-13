@@ -2,12 +2,9 @@
  * SDIO spec header file
  * Protocol and standard (common) device definitions
  *
- * $ Copyright Open Broadcom Corporation $
+ * $Copyright Open Broadcom Corporation$
  *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: sdio.h 514727 2014-11-12 03:02:48Z $
+ * $Id: sdio.h 416730 2013-08-06 09:33:19Z $
  */
 
 #ifndef	_SDIO_H

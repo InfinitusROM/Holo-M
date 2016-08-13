@@ -1,12 +1,9 @@
 /*
  * Linux cfg80211 driver - Dongle Host Driver (DHD) related
  *
- * $ Copyright Open Broadcom Corporation $
+ * $Copyright Open Broadcom Corporation$
  *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: wl_cfg_btcoex.c 514727 2014-11-12 03:02:48Z $
+ * $Id: wl_cfg_btcoex.c 467328 2014-04-03 01:23:40Z $
  */
 
 #include <net/rtnetlink.h>

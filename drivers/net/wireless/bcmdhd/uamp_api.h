@@ -3,12 +3,9 @@
  *
  *  Description: Universal AMP API
  *
- * $ Copyright Open Broadcom Corporation $
+ * $Copyright Open Broadcom Corporation$
  *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: uamp_api.h 514727 2014-11-12 03:02:48Z $
+ * $Id: uamp_api.h 467328 2014-04-03 01:23:40Z $
  *
  */
 

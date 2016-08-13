@@ -2,12 +2,9 @@
  * Broadcom SiliconBackplane SDIO/PCMCIA hardware-specific
  * device core support
  *
- * $ Copyright Open Broadcom Corporation $
+ * $Copyright Open 2005 Broadcom Corporation$
  *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: sbsdpcmdev.h 514727 2014-11-12 03:02:48Z $
+ * $Id: sbsdpcmdev.h 416730 2013-08-06 09:33:19Z $
  */
 
 #ifndef	_sbsdpcmdev_h_

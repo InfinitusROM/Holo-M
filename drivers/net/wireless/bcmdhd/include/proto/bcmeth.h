@@ -1,12 +1,9 @@
 /*
  * Broadcom Ethernettype  protocol definitions
  *
- * $ Copyright Open Broadcom Corporation $
+ * $Copyright Open Broadcom Corporation$
  *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: bcmeth.h 518342 2014-12-01 23:21:41Z $
+ * $Id: bcmeth.h 445746 2013-12-30 12:57:26Z $
  */
 
 /*

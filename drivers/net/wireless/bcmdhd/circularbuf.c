@@ -1,7 +1,5 @@
 /** @file circularbuf.c
  *
- * PCIe full dongle related circular buffer definition, only used by PHANTOM PCIe chip types.
- *
  * PCIe host driver and dongle firmware need to communicate with each other. The mechanism consists
  * of multiple circular buffers located in (DMA'able) host memory. A circular buffer is either used
  * for host -> dongle (h2d) or dongle -> host communication. Both host driver and firmware make use
@@ -11,12 +9,9 @@
  * pio or DMA transfers. It also leaves the format of the data that is written and read to a higher
  * layer. Typically the data is in the form of so-called 'message buffers'.
  *
- * $ Copyright Open Broadcom Corporation $
+ * $Copyright Open Broadcom Corporation$
  *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: circularbuf.c 514727 2014-11-12 03:02:48Z $
+ * $Id: circularbuf.c 467150 2014-04-02 17:30:43Z $
  */
 
 #include <circularbuf.h>

@@ -4,10 +4,7 @@
  *
  * $ Copyright Open Broadcom Corporation $
  *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: bcmsdh.c 514727 2014-11-12 03:02:48Z $
+ * $Id: bcmsdh.c 450676 2014-01-22 22:45:13Z $
  */
 
 /**

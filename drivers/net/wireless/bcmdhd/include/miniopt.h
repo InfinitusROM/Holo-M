@@ -1,12 +1,8 @@
 /*
  * Command line options parser.
  *
- * $ Copyright Open Broadcom Corporation $
- *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: miniopt.h 514727 2014-11-12 03:02:48Z $
+ * $Copyright Open Broadcom Corporation$
+ * $Id: miniopt.h 484281 2014-06-12 22:42:26Z $
  */
 
 

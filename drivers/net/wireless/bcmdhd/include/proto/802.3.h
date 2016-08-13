@@ -1,12 +1,9 @@
 /*
+ * $Copyright Open Broadcom Corporation$
+ *
  * Fundamental constants relating to 802.3
  *
- * $ Copyright Open Broadcom Corporation $
- *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: 802.3.h 518342 2014-12-01 23:21:41Z $
+ * $Id: 802.3.h 417943 2013-08-13 07:54:04Z $
  */
 
 #ifndef _802_3_h_

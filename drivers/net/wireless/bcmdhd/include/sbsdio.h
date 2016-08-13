@@ -4,12 +4,9 @@
  *
  * SDIO core support 1bit, 4 bit SDIO mode as well as SPI mode.
  *
- * $ Copyright Open Broadcom Corporation $
+ * $Copyright Open 2003 Broadcom Corporation$
  *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: sbsdio.h 514727 2014-11-12 03:02:48Z $
+ * $Id: sbsdio.h 383835 2013-02-07 23:32:39Z $
  */
 
 #ifndef	_SBSDIO_H

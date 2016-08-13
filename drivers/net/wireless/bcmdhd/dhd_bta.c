@@ -1,12 +1,9 @@
 /*
  * BT-AMP support routines
  *
- * $ Copyright Open Broadcom Corporation $
+ * $Copyright Open Broadcom Corporation$
  *
- *
- * <<Broadcom-WL-IPTag/Open:>>
- *
- * $Id: dhd_bta.c 514727 2014-11-12 03:02:48Z $
+ * $Id: dhd_bta.c 434434 2013-11-06 07:16:02Z $
  */
 #ifndef WLBTAMP
 #error "WLBTAMP is not defined"
