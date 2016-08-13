@@ -42,6 +42,7 @@ then
 	rm -f .log*.log
 	find . -name "*.o" -type f -delete
 elif [ -e ".log*.log" ]
+then
 	echo "Build Logs will be deleted in 3s"
 	sleep 3
 	rm -f .log*.log
