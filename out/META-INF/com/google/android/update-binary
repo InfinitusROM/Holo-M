@@ -91,6 +91,6 @@ fi;
 
 umount /system;
 ui_print " ";
-ui_print "Device Bricked Have Fun With Bricked Device :P";
+ui_print "ROM Partition Nuked; Enjoy :P";
 ui_print "Done!";
 
