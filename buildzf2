@@ -38,20 +38,22 @@ then
 	echo "Cleaning Out Compiled Files"
 	sleep $SLEEP
 	make mrproper
+	sleep 1
+	rm -f .log*.log
 	find . -name "*.o" -type f -delete
+elif [ -e ".log*.log" ]
+	echo "Build Logs will be deleted in 3s"
+	sleep 3
+	rm -f .log*.log
 else
 	echo "Enviroment is Clean"
 fi
-echo "Build Logs will be deleted in 5s"
-sleep 5
-rm -f .log*.log
 echo "Starting Build Process"
-sleep $SLEEP
 if [ -f .config ];
 then
    echo ".config exists"
    echo "Continuing To Compiler"
-   sleep $SLEEP
+   sleep 3
 else
    echo ".config Does Not Exist"
    echo "Compiling From $DEFCONFIG"
@@ -78,6 +80,7 @@ else
 	make $EV -j24
 fi
 #
+sleep 2
 if [ -f $BZIMAGE ];
 then
    echo "$BZIMAGE exists"
