@@ -13,7 +13,7 @@ export SLEEP=1
 echo "Setting CPU Cores/Threads"
 printf "Enter Version Number:////:"
 sleep $SLEEP
-read -t8 v
+read v
 echo "Setting Extra Version"
 export EV=EXTRAVERSION=_Holo_M_v$v
 echo "Setting Defconfig"
@@ -125,8 +125,8 @@ sed -i '50s|.*|  /tmp/anykernel/tools/mkbootimg --kernel /tmp/anykernel/bzImage 
 
 printf "\n\nCleaned all Files\n"
 printf "Zip created & Shipped\n"
-rm -f $pr/Nexus/Dev/tmpHKNightlies/HoloM_v"$v".zip
-mv out/HoloM_v"$v".zip $pr/Nexus/Dev/tmpHKNightlies
+rm -f $pr/Nexus/Dev/HoloM_v"$v".zip
+mv out/HoloM_v"$v".zip $pr/Nexus/Dev
 end=`date +%s`
 runtime=$((end-start))
 echo "Completion Time :"
