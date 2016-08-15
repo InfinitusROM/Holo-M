@@ -89,7 +89,7 @@ config IOSCHED_ZEN
 
 choice
 	prompt "Default I/O scheduler"
-	default DEFAULT_DEADLINE
+	default DEFAULT_ROW
 	help
 	  Select the I/O scheduler which will be used by default for all
 	  block devices.
@@ -110,11 +110,11 @@ choice
 		  any workload. It also tries to guarantee low latency to
 		  interactive and soft real-time applications.
 
-	config DEFAULT_NOOP
-		bool "No-op" if IOSCHED_NOOP=y
+	config DEFAULT_ROW
+		bool "ROW" if IOSCHED_ROW=y
 		
 	config DEFAULT_ZEN
-		bool "zen" if IOSCHED_ZEN=y
+		bool "Zen" if IOSCHED_ZEN=y
 
 endchoice
 
@@ -123,7 +123,7 @@ config DEFAULT_IOSCHED
 	default "deadline" if DEFAULT_DEADLINE
 	default "cfq" if DEFAULT_CFQ
 	default "bfq" if DEFAULT_BFQ
-	default "noop" if DEFAULT_NOOP
+	default "row" if DEFAULT_ROW
 	default "zen" if DEFAULT_ZEN
 
 endmenu
