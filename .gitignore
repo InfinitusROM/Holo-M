@@ -33,7 +33,7 @@ vmlinux
 #
 !.gitignore
 !.mailmap
-!.config.donotdelete
+!.config.dnd
 
 #
 # Generated include files

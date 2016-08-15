@@ -44,9 +44,11 @@
 
 #ifdef CONFIG_PLATFORM_BTNS
 #define DF_RGX_FREQ_KHZ_MIN             266000
+
 #define DF_RGX_FREQ_KHZ_MAX             457000
 
 #define DF_RGX_INITIAL_FREQ_KHZ         320000
+
 #define DF_RGX_THERMAL_LIMITED_FREQ_KHZ 200000
 #else
 
@@ -62,9 +64,6 @@
 
 #endif
 
-#endif
-
-#define DF_RGX_FREQ_KHZ_MIN_INITIAL     DF_RGX_FREQ_KHZ_MIN
 typedef enum _DFRGX_FREQ_ {
 	DFRGX_FREQ_166_MHZ = 166000,
 	DFRGX_FREQ_200_MHZ = 200000,
