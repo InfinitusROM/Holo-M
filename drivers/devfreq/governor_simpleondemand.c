@@ -16,8 +16,8 @@
 #include "governor.h"
 
 /* Default constants for DevFreq-Simple-Ondemand (DFSO) */
-#define DFSO_UPTHRESHOLD	(75)
-#define DFSO_DOWNDIFFERENCTIAL	(15)
+#define DFSO_UPTHRESHOLD	(81)
+#define DFSO_DOWNDIFFERENCTIAL	(3)
 static int devfreq_simple_ondemand_func(struct devfreq *df,
 					unsigned long *freq)
 {
