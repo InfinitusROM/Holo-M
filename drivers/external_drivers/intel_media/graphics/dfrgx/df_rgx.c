@@ -593,15 +593,16 @@ static int tcd_set_force_state_override(struct thermal_cooling_device *tcd,
 {
 	struct busfreq_data *bfdata = (struct busfreq_data *) tcd->devdata;
 	unsigned long int freqs[THERMAL_COOLING_DEVICE_MAX_STATE];
-	unsigned long int prev_freq = DFRGX_FREQ_533_MHZ;
+	unsigned long int prev_freq = DFRGX_FREQ_400_MHZ;
 	int i = 0;
 
 	if (is_tng_a0)
 		prev_freq = DFRGX_FREQ_266_MHZ;
 	if (df_rgx_is_max_fuse_set())
-		prev_freq = DFRGX_FREQ_640_MHZ;
+		prev_freq = DFRGX_FREQ_533_MHZ;
 
-	sscanf(buf, "%lu %lu %lu %lu %lu %lu %lu\n", &freqs[0],
+	sscanf(buf, "%lu %lu %lu %lu %lu %lu %lu\n", 
+			 &freqs[0],
 			 &freqs[1],
 			 &freqs[2],
 			 &freqs[3],
@@ -758,15 +759,15 @@ static int df_rgx_busfreq_probe(struct platform_device *pdev)
 		df->max_freq = DFRGX_FREQ_533_MHZ;
 	}*/
 if(scr_suspended == true) {
-		df->min_freq = DFRGX_FREQ_166_MHZ;
+		df->min_freq = DFRGX_FREQ_160_MHZ;
 		df->max_freq = DFRGX_FREQ_200_MHZ;}
 	else {
-		df->min_freq = DFRGX_FREQ_320_MHZ; 
-		df->max_freq = DFRGX_FREQ_640_MHZ;
+		df->min_freq; 
+		df->max_freq = DFRGX_FREQ_400_MHZ;
 		}
 /*if this is BTNS we use powersave governor at 106MHZ fixed*/
 #ifdef CONFIG_PLATFORM_BTNS
-	df->min_freq = DFRGX_FREQ_166_MHZ;
+	df->min_freq = DFRGX_FREQ_200_MHZ;
 	df->max_freq = DFRGX_FREQ_200_MHZ;
 #endif
 	DFRGX_DPF(DFRGX_DEBUG_HIGH, "%s: dev_id = 0x%x, min_freq = %lu, max_freq = %lu\n",
@@ -780,11 +781,11 @@ if(scr_suspended == true) {
 	//else
 	bfdata->gpudata[0].freq_limit = DFRGX_FREQ_640_MHZ;
 	bfdata->gpudata[1].freq_limit = DFRGX_FREQ_533_MHZ;
-	bfdata->gpudata[2].freq_limit = DFRGX_FREQ_457_MHZ;
+	bfdata->gpudata[2].freq_limit = DFRGX_FREQ_400_MHZ;
 	bfdata->gpudata[3].freq_limit = DFRGX_FREQ_320_MHZ;
 	bfdata->gpudata[4].freq_limit = DFRGX_FREQ_266_MHZ;
 	bfdata->gpudata[5].freq_limit = DFRGX_FREQ_200_MHZ;
-	bfdata->gpudata[6].freq_limit = DFRGX_FREQ_166_MHZ;
+	bfdata->gpudata[6].freq_limit = DFRGX_FREQ_160_MHZ;
 
 
 	df_rgx_init_available_freq_table(dev);
