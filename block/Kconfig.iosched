@@ -86,6 +86,12 @@ config IOSCHED_ZEN
 	---help---
 	FCFS, dispatches are back-inserted, deadlines ensure fairness.
         Should work best with devices where there is no travel delay.
+		
+config IOSCHED_TRIPNDROID
+	tristate "Tripndroid"
+	default y
+	---help---
+	  A Mix of the best.
 
 choice
 	prompt "Default I/O scheduler"
@@ -110,8 +116,8 @@ choice
 		  any workload. It also tries to guarantee low latency to
 		  interactive and soft real-time applications.
 
-	config DEFAULT_ROW
-		bool "ROW" if IOSCHED_ROW=y
+	config DEFAULT_TRIPNDROID
+		bool "Tripndroid" if IOSCHED_TRIPNDROID=y
 		
 	config DEFAULT_ZEN
 		bool "Zen" if IOSCHED_ZEN=y
@@ -123,7 +129,7 @@ config DEFAULT_IOSCHED
 	default "deadline" if DEFAULT_DEADLINE
 	default "cfq" if DEFAULT_CFQ
 	default "bfq" if DEFAULT_BFQ
-	default "row" if DEFAULT_ROW
+	default "Tripndroid" if DEFAULT_TRIPNDROID
 	default "zen" if DEFAULT_ZEN
 
 endmenu
