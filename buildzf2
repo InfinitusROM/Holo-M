@@ -41,6 +41,7 @@ then
 	sleep 1
 	rm -f .log*.log
 	find . -name "*.o" -type f -delete
+	rm -f .config*.old
 elif [ -e ".log*.log" ]
 then
 	echo "Build Logs will be deleted in 3s"
