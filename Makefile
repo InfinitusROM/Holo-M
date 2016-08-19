@@ -249,11 +249,11 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 
 HOSTCC       = $(CCACHE) gcc
 HOSTCXX      = $(CCACHE) g++
-HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -Ofast -ffast-math -fomit-frame-pointer -fgcse-las -std=gnu89
-HOSTCXXFLAGS = -Ofast -march=silvermont -mtune=silvermont -msse4.2 -mpopcnt -fgcse-las
+HOSTCFLAGS   = -Wall -Wmissing-prototypes -O3 -ffast-math -fomit-frame-pointer -fgcse-las -std=gnu89
+HOSTCXXFLAGS = -O3 -ffast-math -march=silvermont -mtune=silvermont -msse4.2 -mpopcnt -fgcse-las
 ifeq ($(ENABLE_GRAPHITE),true)
-HOSTCXXFLAGS += -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-strip-mine -floop-block -fgraphite-identity -floop-block -floop-strip-mine -ftree-loop-distribution -ftree-loop-linear
-HOSTCFLAGS += -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-strip-mine -floop-block -floop-block -floop-strip-mine -fgraphite-identity -ftree-loop-distribution -ftree-loop-linear -ffast-math
+HOSTCXXFLAGS += -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-linear -flto -floop-strip-mine -floop-block -fgraphite-identity -floop-block -floop-strip-mine -ftree-loop-distribution -ftree-loop-linear
+HOSTCFLAGS += -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-linear -flto -floop-strip-mine -floop-block -floop-block -floop-strip-mine -fgraphite-identity -ftree-loop-distribution -ftree-loop-linear -ffast-math
 endif
 
 # Decide whether to build built-in, modular, or both.
