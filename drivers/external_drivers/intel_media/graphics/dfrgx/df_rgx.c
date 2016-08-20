@@ -129,9 +129,6 @@ static struct platform_device *df_rgx_created_dev;
 void df_rgx_init_available_freq_table(struct device *dev);
 int opp_add(struct device *dev, unsigned long freq, unsigned long u_volt);
 
-/* variable to detect screen on/off */
-static bool scr_suspended;
-
 /**
  * Module parameters:
  *
@@ -758,17 +755,11 @@ static int df_rgx_busfreq_probe(struct platform_device *pdev)
 		df->min_freq = DFRGX_FREQ_457_MHZ;
 		df->max_freq = DFRGX_FREQ_533_MHZ;
 	}*/
-if(scr_suspended == true) {
-		df->min_freq = DFRGX_FREQ_160_MHZ;
-		df->max_freq = DFRGX_FREQ_200_MHZ;}
-	else {
-		df->min_freq; 
-		df->max_freq = DFRGX_FREQ_400_MHZ;
-		}
+
 /*if this is BTNS we use powersave governor at 106MHZ fixed*/
 #ifdef CONFIG_PLATFORM_BTNS
 	df->min_freq = DFRGX_FREQ_200_MHZ;
-	df->max_freq = DFRGX_FREQ_200_MHZ;
+	df->max_freq = DFRGX_FREQ_266_MHZ;
 #endif
 	DFRGX_DPF(DFRGX_DEBUG_HIGH, "%s: dev_id = 0x%x, min_freq = %lu, max_freq = %lu\n",
 		__func__, RGXGetDRMDeviceID(), df->min_freq, df->max_freq);
@@ -779,9 +770,9 @@ if(scr_suspended == true) {
 	//if (df_rgx_is_max_fuse_set())
 	//bfdata->gpudata[0].freq_limit = DFRGX_FREQ_640_MHZ;
 	//else
-	bfdata->gpudata[0].freq_limit = DFRGX_FREQ_640_MHZ;
-	bfdata->gpudata[1].freq_limit = DFRGX_FREQ_533_MHZ;
-	bfdata->gpudata[2].freq_limit = DFRGX_FREQ_400_MHZ;
+	bfdata->gpudata[0].freq_limit = DFRGX_FREQ_533_MHZ;
+	bfdata->gpudata[1].freq_limit = DFRGX_FREQ_457_MHZ;
+	bfdata->gpudata[2].freq_limit = DFRGX_FREQ_355_MHZ;
 	bfdata->gpudata[3].freq_limit = DFRGX_FREQ_320_MHZ;
 	bfdata->gpudata[4].freq_limit = DFRGX_FREQ_266_MHZ;
 	bfdata->gpudata[5].freq_limit = DFRGX_FREQ_200_MHZ;
@@ -947,23 +938,6 @@ static struct platform_driver df_rgx_busfreq_driver = {
 		.owner	= THIS_MODULE,
 		.pm	= &df_rgx_busfreq_pm,
 	},
-};
-
-/* callback functions to detect screen on and off events */
-static void early_suspend_screen_off(struct early_suspend *h)
-{
-	scr_suspended = true;
-}
-
-static void late_resume_screen_on(struct early_suspend *h)
-{
-	scr_suspended = false;
-}
-
-static struct early_suspend screen_detect = {
-	.level = EARLY_SUSPEND_LEVEL_BLANK_SCREEN,
-	.suspend = early_suspend_screen_off,
-	.resume = late_resume_screen_on,
 };
 
 static struct platform_device * __init df_rgx_busfreq_device_create(void)
