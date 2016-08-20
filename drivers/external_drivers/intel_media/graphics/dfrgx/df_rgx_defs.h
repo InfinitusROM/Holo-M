@@ -54,7 +54,7 @@
 
 #define DF_RGX_FREQ_KHZ_MIN             160000
 
-#define DF_RGX_FREQ_KHZ_MAX             457000
+#define DF_RGX_FREQ_KHZ_MAX             400000
 
 #define DF_RGX_FREQ_KHZ_MIN_INITIAL     266000
 
@@ -69,9 +69,9 @@ typedef enum _DFRGX_FREQ_ {
 	DFRGX_FREQ_200_MHZ = 200000,
 	DFRGX_FREQ_266_MHZ = 266000,
 	DFRGX_FREQ_320_MHZ = 320000,
-	DFRGX_FREQ_355_MHZ = 355000
-	DFRGX_FREQ_400_MHZ = 457000,
+	DFRGX_FREQ_400_MHZ = 400000,
 	DFRGX_FREQ_533_MHZ = 533000,
+	DFRGX_FREQ_640_MHZ = 640000,
 } DFRGX_FREQ;
 
 typedef enum _DFRGX_TURBO_PROFILE_ {
@@ -201,9 +201,9 @@ static const struct gpu_utilization_record a_available_state_freq[] = {
 					{DFRGX_FREQ_200_MHZ, 0xE},
 					{DFRGX_FREQ_266_MHZ, 0xD},
 					{DFRGX_FREQ_320_MHZ, 0xC},
-					{DFRGX_FREQ_355_MHZ, 0xB},
-					{DFRGX_FREQ_457_MHZ, 0x9},
-					{DFRGX_FREQ_533_MHZ, 0x8},
+					{DFRGX_FREQ_400_MHZ, 0xB},
+					{DFRGX_FREQ_533_MHZ, 0x9},
+					{DFRGX_FREQ_640_MHZ, 0x8},
 					};
 
 unsigned int df_rgx_is_valid_freq(unsigned long int freq);
