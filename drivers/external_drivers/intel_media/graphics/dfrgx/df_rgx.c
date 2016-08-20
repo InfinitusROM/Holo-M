@@ -596,7 +596,7 @@ static int tcd_set_force_state_override(struct thermal_cooling_device *tcd,
 	if (is_tng_a0)
 		prev_freq = DFRGX_FREQ_266_MHZ;
 	if (df_rgx_is_max_fuse_set())
-		prev_freq = DFRGX_FREQ_533_MHZ;
+		prev_freq = DFRGX_FREQ_640_MHZ;
 
 	sscanf(buf, "%lu %lu %lu %lu %lu %lu %lu\n", 
 			 &freqs[0],
@@ -770,9 +770,9 @@ static int df_rgx_busfreq_probe(struct platform_device *pdev)
 	//if (df_rgx_is_max_fuse_set())
 	//bfdata->gpudata[0].freq_limit = DFRGX_FREQ_640_MHZ;
 	//else
-	bfdata->gpudata[0].freq_limit = DFRGX_FREQ_533_MHZ;
-	bfdata->gpudata[1].freq_limit = DFRGX_FREQ_457_MHZ;
-	bfdata->gpudata[2].freq_limit = DFRGX_FREQ_355_MHZ;
+	bfdata->gpudata[0].freq_limit = DFRGX_FREQ_640_MHZ;
+	bfdata->gpudata[1].freq_limit = DFRGX_FREQ_533_MHZ;
+	bfdata->gpudata[2].freq_limit = DFRGX_FREQ_400_MHZ;
 	bfdata->gpudata[3].freq_limit = DFRGX_FREQ_320_MHZ;
 	bfdata->gpudata[4].freq_limit = DFRGX_FREQ_266_MHZ;
 	bfdata->gpudata[5].freq_limit = DFRGX_FREQ_200_MHZ;
