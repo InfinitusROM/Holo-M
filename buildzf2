@@ -94,7 +94,6 @@ else
    sleep $SLEEP
    exit 0
 fi
-clear
 #make it a bit more beautiful :P
 echo "script made by eoghan2t7 of xda"
 printf "say thanks to him if this helped you :) \n\n"
@@ -130,6 +129,8 @@ rm -f $pr/Nexus/Dev/HoloM_v"$v".zip
 mv out/HoloM_v"$v".zip $pr/Nexus/Dev
 end=`date +%s`
 runtime=$((end-start))
+sleep 12
+clear
 echo "Completion Time :"
 echo "$runtime seconds"
 unset SLEEP
