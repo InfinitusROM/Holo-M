@@ -1432,10 +1432,10 @@ static int cpufreq_governor_thessjactive(struct cpufreq_policy *policy,
 
 		freq_table = cpufreq_frequency_get_table(policy->cpu);
 		if (!tunables->hispeed_freq)
-			tunables->hispeed_freq = ((policy->max) - 83);
+			tunables->hispeed_freq = ((policy->max) - 83000);
 
 		if (!tunables->touchboost_freq)
-			tunables->touchboost_freq = ((policy->min) + 166);
+			tunables->touchboost_freq = ((policy->min) + 166000);
 		for_each_cpu(j, policy->cpus) {
 			pcpu = &per_cpu(cpuinfo, j);
 			pcpu->policy = policy;
@@ -1446,7 +1446,7 @@ static int cpufreq_governor_thessjactive(struct cpufreq_policy *policy,
 				ktime_to_us(ktime_get());
 			pcpu->hispeed_validate_time =
 				pcpu->floor_validate_time;
-			pcpu->max_freq = ((policy->max) - 83);
+			pcpu->max_freq = ((policy->max) - 83000);
 			down_write(&pcpu->enable_sem);
 			del_timer_sync(&pcpu->cpu_timer);
 			del_timer_sync(&pcpu->cpu_slack_timer);
