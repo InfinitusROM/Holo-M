@@ -84,7 +84,7 @@
 // #define SNAP_NATIVE_HOTPLUGGING
 
 // ZZ: enable for sources with backported cpufreq implementation of 3.10 kernel
-#define CPU_IDLE_TIME_IN_CPUFREQ
+// #define CPU_IDLE_TIME_IN_CPUFREQ
 
 // ZZ: enable/disable music limits
 // #define ENABLE_MUSIC_LIMITS
@@ -2580,7 +2580,7 @@ static inline u64 get_cpu_idle_time_jiffy(unsigned int cpu, u64 *wall)
  * ZZ: function has been moved out of governor since kernel version 3.8 and finally moved to cpufreq.c in kernel version 3.11
  *     overruling macro CPU_IDLE_TIME_IN_CPUFREQ included for sources with backported cpufreq implementation
  */
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,8,0) && !defined(CPU_IDLE_TIME_IN_CPUFREQ)
+// #if LINUX_VERSION_CODE < KERNEL_VERSION(3,8,0) && !defined(CPU_IDLE_TIME_IN_CPUFREQ)
 static inline u64 get_cpu_idle_time(unsigned int cpu, u64 *wall)
 {
 	u64 idle_time = get_cpu_idle_time_us(cpu, NULL);
@@ -2592,7 +2592,7 @@ static inline u64 get_cpu_idle_time(unsigned int cpu, u64 *wall)
 
 	return idle_time;
 }
-#endif /* LINUX_VERSION_CODE... */
+// #endif /* LINUX_VERSION_CODE... */
 
 // keep track of frequency transitions
 static int dbs_cpufreq_notifier(struct notifier_block *nb, unsigned long val, void *data)
@@ -3483,7 +3483,7 @@ static ssize_t store_ignore_nice_load(struct kobject *a, struct attribute *b, co
 	}
 #endif /* ENABLE_PROFILES_SUPPORT */
 	dbs_tuners_ins.ignore_nice = input;
-
+	
 	// ZZ: we need to re-evaluate prev_cpu_idle
 	for_each_online_cpu(j) {
 		 struct cpu_dbs_info_s *dbs_info;
@@ -7290,7 +7290,6 @@ static void dbs_check_cpu(struct cpu_dbs_info_s *this_dbs_info)
 		unsigned int idle_time, wall_time;
 
 		j_dbs_info = &per_cpu(cs_cpu_dbs_info, j);
-
 		cur_idle_time = get_cpu_idle_time(j,
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(3,10,0) || defined(CPU_IDLE_TIME_IN_CPUFREQ)	/* overrule for sources with backported cpufreq implementation */
 		     &cur_wall_time, 0);
@@ -7316,6 +7315,7 @@ static void dbs_check_cpu(struct cpu_dbs_info_s *this_dbs_info)
 				j_dbs_info->prev_cpu_idle);
 		j_dbs_info->prev_cpu_idle = cur_idle_time;
 #endif /* LINUX_VERSION_CODE... */
+
 		if (dbs_tuners_ins.ignore_nice) {
 		    u64 cur_nice;
 		    unsigned long cur_nice_jiffies;
@@ -8736,7 +8736,6 @@ static int cpufreq_governor_dbs(struct cpufreq_policy *policy,
 			struct cpu_dbs_info_s *j_dbs_info;
 			j_dbs_info = &per_cpu(cs_cpu_dbs_info, j);
 			j_dbs_info->cur_policy = policy;
-
 			j_dbs_info->prev_cpu_idle = get_cpu_idle_time(j,
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(3,10,0) || defined(CPU_IDLE_TIME_IN_CPUFREQ)	/* ZZ: overrule for sources with backported cpufreq implementation */
 			&j_dbs_info->prev_cpu_wall, 0);
@@ -8750,7 +8749,7 @@ static int cpufreq_governor_dbs(struct cpufreq_policy *policy,
 #else
 			    kstat_cpu(j).cpustat.nice;
 #endif /* LINUX_VERSION_CODE... */
-			}
+		}
 			j_dbs_info->time_in_idle = get_cpu_idle_time_us(cpu, &j_dbs_info->idle_exit_time); // ZZ: idle exit time handling
 		}
 		this_dbs_info->cpu = cpu;					// ZZ: initialise the cpu field during governor start
