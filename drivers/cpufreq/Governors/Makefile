@@ -6,3 +6,4 @@ obj-$(CONFIG_CPU_FREQ_GOV_FRANKENSTEIN)        	 += cpufreq_frankenstein.o
 obj-$(CONFIG_CPU_FREQ_GOV_LAGFREE)             += cpufreq_smartass2.o
 obj-$(CONFIG_CPU_FREQ_GOV_INTEL)             += cpufreq_intel.o
 obj-$(CONFIG_CPU_FREQ_GOV_THESSJACTIVE)             += cpufreq_thessjactive.o
+obj-$(CONFIG_CPU_FREQ_GOV_ZZMOOVE)				+= cpufreq_zzmoove.o
