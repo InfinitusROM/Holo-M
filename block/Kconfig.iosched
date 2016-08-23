@@ -88,7 +88,7 @@ config DEFAULT_DEADLINE
 		bool "ROW" if IOSCHED_ROW=y
 		
 	config DEFAULT_ZEN
-		bool "Zen" if IOSCHED_ZEN=y
+		bool "zen" if IOSCHED_ZEN=y
 
 endchoice
 
@@ -96,7 +96,7 @@ config DEFAULT_IOSCHED
 	string
 	default "bfq" if DEFAULT_BFQ
 	default "deadline" if DEFAULT_DEADLINE
-	default "ROW" if DEFAULT_ROW
+	default "row" if DEFAULT_ROW
 	default "zen" if DEFAULT_ZEN
 
 endmenu

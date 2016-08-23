@@ -590,7 +590,7 @@ static int tcd_set_force_state_override(struct thermal_cooling_device *tcd,
 {
 	struct busfreq_data *bfdata = (struct busfreq_data *) tcd->devdata;
 	unsigned long int freqs[THERMAL_COOLING_DEVICE_MAX_STATE];
-	unsigned long int prev_freq = DFRGX_FREQ_400_MHZ;
+	unsigned long int prev_freq = DFRGX_FREQ_640_MHZ;
 	int i = 0;
 
 	if (is_tng_a0)
@@ -756,11 +756,6 @@ static int df_rgx_busfreq_probe(struct platform_device *pdev)
 		df->max_freq = DFRGX_FREQ_533_MHZ;
 	}*/
 
-/*if this is BTNS we use powersave governor at 106MHZ fixed*/
-#ifdef CONFIG_PLATFORM_BTNS
-	df->min_freq = DFRGX_FREQ_200_MHZ;
-	df->max_freq = DFRGX_FREQ_266_MHZ;
-#endif
 	DFRGX_DPF(DFRGX_DEBUG_HIGH, "%s: dev_id = 0x%x, min_freq = %lu, max_freq = %lu\n",
 		__func__, RGXGetDRMDeviceID(), df->min_freq, df->max_freq);
 

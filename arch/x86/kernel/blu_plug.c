@@ -27,10 +27,10 @@
 #include <linux/delay.h>
 #include <linux/slab.h>
 
-#define INIT_DELAY		(110000) /* Initial delay to 90 sec, 4 cores while boot */
-#define DELAY			(500)
+#define INIT_DELAY		(90000) /* Initial delay to 90 sec, 4 cores while boot */
+#define DELAY			(700)
 #define UP_THRESHOLD		(95)
-#define MIN_ONLINE		(2)
+#define MIN_ONLINE		(4)
 #define MAX_ONLINE		(4)
 #define DEF_DOWN_TIMER_CNT	(1)	/* 1/2 sec */
 #define DEF_UP_TIMER_CNT	(3)	/* 3/2 sec */
