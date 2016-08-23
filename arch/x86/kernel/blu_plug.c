@@ -1,10 +1,11 @@
 /*
- * Dynamic Hotplug for mako / hammerhead / shamu
+ * Dynamic Hotplug for mako / hammerhead / shamu / Zenfone 2
  *
  * Copyright (C) 2013 Stratos Karafotis <stratosk@semaphore.gr> (dyn_hotplug for mako)
  *
- * Copyright (C) 2014-2016 engstk <eng.stk@sapo.pt> (hammerhead, shamu, osprey and onyx implementation, fixes and changes to blu_plug)
+ * Copyright (C) 2014-2016 engstk <eng.stk@sapo.pt> (hammerhead, shamu, osprey, onyx implementation, fixes and changes to blu_plug)
  *
+ * Copyright (C) 2016- 2017 nutcasev15 <win.api_10@outlook.com> (Zenfone 2 Implementation & Fixes)
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
  * published by the Free Software Foundation.
@@ -26,13 +27,13 @@
 #include <linux/delay.h>
 #include <linux/slab.h>
 
-#define INIT_DELAY		(90000) /* Initial delay to 90 sec, 4 cores while boot */
+#define INIT_DELAY		(110000) /* Initial delay to 90 sec, 4 cores while boot */
 #define DELAY			(500)
-#define UP_THRESHOLD		(98)
+#define UP_THRESHOLD		(95)
 #define MIN_ONLINE		(2)
 #define MAX_ONLINE		(4)
-#define DEF_DOWN_TIMER_CNT	(3)	/* 3/2 sec */
-#define DEF_UP_TIMER_CNT	(1)	/* 1/2 sec */
+#define DEF_DOWN_TIMER_CNT	(1)	/* 1/2 sec */
+#define DEF_UP_TIMER_CNT	(3)	/* 3/2 sec */
 #define MAX_CORES_SCREENOFF (2)
 #define DEF_PLUG_THRESHOLD 0
 
