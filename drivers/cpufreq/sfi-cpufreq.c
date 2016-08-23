@@ -174,7 +174,7 @@ static int sfi_processor_get_performance_states(struct sfi_processor *pr)
 
 #ifdef CPU_ATOM_OVERCLOCK
 	#define OC_S	(3) /* Change this for Variance */
-	unsigned int ocs = OC_S
+	unsigned int ocs = OC_S;
 	sfi_cpufreq_num = sfi_cpufreq_num + ocs; //we need variable states for the OC
 #endif
 
