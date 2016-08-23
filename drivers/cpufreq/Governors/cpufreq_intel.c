@@ -1245,10 +1245,10 @@ static int cpufreq_governor_intel(struct cpufreq_policy *policy,
 		}
 
 		if (!hispeed_freq)
-			hispeed_freq = policy->max;
+			hispeed_freq = ((policy->max) - 83000);
 
 		if (!boostspeed_freq)
-			boostspeed_freq = policy->max;
+			boostspeed_freq = ((policy->min) + 333000);
 
 		/*
 		 * Do not register the idle hook and create sysfs
