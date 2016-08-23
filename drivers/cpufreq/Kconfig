@@ -62,14 +62,6 @@ choice
 	  This option sets which CPUFreq governor shall be loaded at
 	  startup. If in doubt, select 'performance'.
 
-config CPU_FREQ_DEFAULT_GOV_PERFORMANCE
-	bool "performance"
-	select CPU_FREQ_GOV_PERFORMANCE
-	help
-	  Use the CPUFreq governor 'performance' as default. This sets
-	  the frequency statically to the highest frequency supported by
-	  the CPU.
-
 config CPU_FREQ_DEFAULT_GOV_BLUACTIVE
 	bool "bluactive"
 	select CPU_FREQ_GOV_BLUACTIVE
@@ -84,12 +76,7 @@ config CPU_FREQ_DEFAULT_GOV_FRANKENSTEIN
 	  you to get a full dynamic cpu frequency capable system by simply
 	  loading your cpufreq low-level hardware driver, using the
 	  'frankenstein' governor for latency-sensitive workloads.
-
-config CPU_FREQ_DEFAULT_GOV_SMARTASS2
-  	bool "smartassV2"
-  	select CPU_FREQ_GOV_SMARTASS2
-  	help
-	
+	  
 config CPU_FREQ_DEFAULT_GOV_INTEL
 	bool "intel"
 	select CPU_FREQ_GOV_INTEL
@@ -112,31 +99,42 @@ config CPU_FREQ_DEFAULT_GOV_LAGFREE
           governor. If unsure have a look at the help section of the
           driver. Fallback governor will be the performance governor.
 
+config CPU_FREQ_DEFAULT_GOV_PERFORMANCE
+	bool "performance"
+	select CPU_FREQ_GOV_PERFORMANCE
+	help
+	  Use the CPUFreq governor 'performance' as default. This sets
+	  the frequency statically to the highest frequency supported by
+	  the CPU.
+
+config CPU_FREQ_DEFAULT_GOV_SMARTASS2
+  	bool "smartassV2"
+  	select CPU_FREQ_GOV_SMARTASS2
+  	help
+	
 endchoice
 
-config CPU_FREQ_GOV_PERFORMANCE
-	tristate "'performance' governor"
-	help
-	  This cpufreq governor sets the frequency statically to the
-	  highest available CPU frequency.
-
-	  To compile this driver as a module, choose M here: the
-	  module will be called cpufreq_performance.
-
-	  If in doubt, say Y.
-	  
-config CPU_FREQ_GOV_SMARTASS2
-  	tristate "'smartassV2' cpufreq governor"
-  	depends on CPU_FREQ
-  	help
-    	'smartassV2' - a "smart" governor
-		
 config CPU_FREQ_GOV_BLUACTIVE
 	tristate "'bluactive' cpufreq policy governor"	
 	default y	
 	help
 		A Hotplugged version of Interactive governor.
-	
+
+config CPU_FREQ_GOV_FRANKENSTEIN
+	tristate "'frankenstein' cpufreq policy governor"
+	depends on CPU_FREQ_GOV_PERFORMANCE	
+	default y
+
+config CPU_FREQ_GOV_INTEL
+	tristate "'intel' cpufreq policy governor"	
+	default y	
+	help
+	  Use the CPUFreq governor 'intel' as default. This allows
+	  you to get a full dynamic cpu frequency capable system by simply
+	  loading your cpufreq low-level hardware driver, using the
+	  'intel' governor for better perfromance and power with Intel
+	  mobile platforms.
+
 config CPU_FREQ_GOV_LAGFREE
         tristate "'lagfree' cpufreq governor"
         depends on CPU_FREQ
@@ -154,10 +152,22 @@ config CPU_FREQ_GOV_LAGFREE
 
           If in doubt, say N.
 		  
-config CPU_FREQ_GOV_FRANKENSTEIN
-	tristate "'frankenstein' cpufreq policy governor"
-	depends on CPU_FREQ_GOV_PERFORMANCE	
-	default y
+config CPU_FREQ_GOV_PERFORMANCE
+	tristate "'performance' governor"
+	help
+	  This cpufreq governor sets the frequency statically to the
+	  highest available CPU frequency.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called cpufreq_performance.
+
+	  If in doubt, say Y.
+	  
+config CPU_FREQ_GOV_SMARTASS2
+  	tristate "'smartassV2' cpufreq governor"
+  	depends on CPU_FREQ
+  	help
+    	'smartassV2' - a "smart" governor
 
 config CPU_FREQ_GOV_THESSJACTIVE
 	tristate "'thessjactive' cpufreq policy governor"
@@ -165,17 +175,6 @@ config CPU_FREQ_GOV_THESSJACTIVE
 	help
 	  credits to TheSSJ
 	
-config CPU_FREQ_GOV_INTEL
-	tristate "'intel' cpufreq policy governor"	
-	default y	
-	help
-	  Use the CPUFreq governor 'intel' as default. This allows
-	  you to get a full dynamic cpu frequency capable system by simply
-	  loading your cpufreq low-level hardware driver, using the
-	  'intel' governor for better perfromance and power with Intel
-	  mobile platforms.
-	
-
 config GENERIC_CPUFREQ_CPU0
 	tristate "Generic CPU0 cpufreq driver"
 	depends on HAVE_CLK && REGULATOR && PM_OPP && OF
