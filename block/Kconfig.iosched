@@ -31,6 +31,14 @@ config IOSCHED_DEADLINE
 	  CSCAN service with FIFO expiration of requests, switching to
 	  a new point in the service tree and doing a batch of IO from there
 	  in case of expiry.
+	  
+config IOSCHED_FIOPS
+	tristate "IOPS based I/O scheduler"
+	default y
+	---help---
+	  This is an IOPS based I/O scheduler. It will try to distribute
+          IOPS equally among all processes in the system. It's mainly for
+          Flash based storage.
 
 config IOSCHED_ROW
 	tristate "ROW I/O scheduler"
